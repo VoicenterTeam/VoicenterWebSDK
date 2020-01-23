@@ -10,13 +10,26 @@ module.exports = class SayAction {
            "DATA": [ ]
        }
        this.SayList = []
+        if(sayData&&sayData.sayData){
+            if (sayData.NextLayer) {
+                this.output.NEXT_LAYER=sayData.NextLayer
+            }
+            sayData=sayData.sayData;
+        }
        let that =this
        if(sayData&&sayData.constructor.name=="Array"){
             sayData.forEach(function (sayAction) {
 
-              if(sayAction.constructor.name=="Object")
+              if(sayAction.constructor.name=="Object"){
                   that.AddSayAction({RecordType: Object.keys(sayAction)[0],Content:sayAction[Object.keys(sayAction)[0]]})
+              }
             })
+       }else if(sayData&&sayData.constructor.name=="Object"){
+           that.AddSayAction({RecordType: Object.keys(sayData)[0],Content:sayData[Object.keys(sayData)[0]]})
+
+       }else if(sayData&&sayData.constructor.name=="Number"){
+           that.AddSayAction({RecordType: "Number",Content:sayData})
+
        }
     }
     AddSayAction(action){
