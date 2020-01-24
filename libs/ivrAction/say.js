@@ -4,7 +4,7 @@ module.exports = class SayAction {
        this.output = {
            "STATUS": 0,
            "ACTION": "SAY_DIGITS",
-           "NEXT_LAYER": 2,
+           "NEXT_LAYER": 0,
            "NEXT_LAYER_IF_FAILED": 1,
            "LANGUAGE": "EN",
            "DATA": [ ]

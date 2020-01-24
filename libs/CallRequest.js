@@ -1,5 +1,7 @@
 //Load Call Action
 const Say = require("../libs/ivrAction/say")
+const GoToLayer = require("../libs/ivrAction/goToLayer")
+const Dial = require("../libs/ivrAction/dial")
 
 
 module.exports = class CallRequest {
@@ -83,11 +85,19 @@ module.exports = class CallRequest {
         this.reply.send(this.action.GetOutput())
     }
 
-    // Load Action Into the class
+    // Load Action Into the class Start
     Say(sayOpt) {
-       this.action= new Say(sayOpt)
+        this.action= new Say(sayOpt)
 
     }
+    GoToLayer(goToLayerOpt) {
+        this.action= new GoToLayer(goToLayerOpt)
+    }
+    Dial(dialOpt) {
+        this.action= new Dial(dialOpt)
+    }
+
+    // Load Action Into the class End
 
 
 }
