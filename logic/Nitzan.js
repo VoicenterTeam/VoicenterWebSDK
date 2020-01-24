@@ -1,5 +1,11 @@
 module.exports = async  function (call) {
 
-  call.Say(444)
-    call.execute();
+  if(call.CallerID=="0523574321"){
+    call.Say(6666)
+  }else{
+    call.Say(444)
+  }
+
+
+
 }
