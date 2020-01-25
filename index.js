@@ -7,7 +7,7 @@ module.exports = class VoicenterWebSDK {
         this.config={}
         this.config.port = 3000
         this.config.host = '0.0.0.0'
-        this.config.callLogicFolder ='logic'
+        this.config.callLogicFolder =null
         this.fastify = fastify
         if(options){
             if(options.port)this.config.port=options.port

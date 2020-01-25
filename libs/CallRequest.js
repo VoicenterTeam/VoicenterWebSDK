@@ -1,4 +1,6 @@
-console.log("Loading CallRequest Class , Call Logic folder is :",__dirname+"/"+ global.config.callLogicFolder)
+let callLogicFolder = __dirname+"/../../"
+if(global.config.callLogicFolder)callLogicFolder= __dirname+"/../../"+global.config.callLogicFolder
+console.log("Loading CallRequest Class , Call Logic folder is :",callLogicFolder)
 const clear = require("clear-module");
 
 const CallCustomParam = require("../libs/ivrAction/callParam")
@@ -11,7 +13,7 @@ const Dial = require("../libs/ivrAction/dial")
 module.exports = class CallRequest {
     constructor(request,reply) {
         if(request.query.reload||request.query.Reload){
-            clear('../'+global.config.callLogicFolder+'/'+request.params.CallLogic )
+            clear(callLogicFolder+'/'+request.params.CallLogic )
         }
         this.request = request;
         this.reply = reply;
@@ -27,12 +29,16 @@ module.exports = class CallRequest {
         this.parseRequest()
 
         try {
-            this.callLogic = require( '../'+global.config.callLogicFolder+'/'+request.params.CallLogic );
+            this.callLogic = require( callLogicFolder+'/'+request.params.CallLogic  );
         }
         catch( e ) {
             if ( e.code === 'MODULE_NOT_FOUND' ) {
                 // The module hasn't been found
+                console.error("MODULE_NOT_FOUND "+ request.params.CallLogic  ,e)
             }
+            console.error("MODULE load failed  "+ request.params.CallLogic  ,e)
+            console.error("Loading  "+__dirname+"../logic/DefualtCallLogic")
+
             this.callLogic = require("../logic/DefualtCallLogic")
         }
 
@@ -76,7 +82,7 @@ module.exports = class CallRequest {
     }
     async DoCallLogic() {
         await this.callLogic(this)
-        if(!this.done)this.execute()
+        if(!this.done)this.Execute()
 
     }
     async Do(nextLogic) {
@@ -84,7 +90,7 @@ module.exports = class CallRequest {
             await nextLogic(this)
         }else if (nextLogic.constructor.name=="String") {
             try {
-                let nextLogicFuncaion  = require( '../'+global.config.callLogicFolder+'/'+nextLogic );
+                let nextLogicFuncaion  = require( callLogicFolder+'/'+nextLogic );
                 nextLogicFuncaion(this)
             }
             catch( e ) {
@@ -97,7 +103,7 @@ module.exports = class CallRequest {
     SetNextLayer(layerId){
         this.ResponseData.NEXT_LAYER=layerId
     }
-    async execute() {
+    async Execute() {
         this.done =true
         let responseObj ={}
         responseObj=this.action.GetOutput();

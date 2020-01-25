@@ -10,7 +10,7 @@ module.exports = function (fastify, opts, done) {
 async function ivrHandler  (req, reply) {
     let callRequest = new CallRequest(req, reply)
     await callRequest.DoCallLogic();
-   // await  callRequest.execute()
+   // await  callRequest.Execute()
   //  reply.send({hello:"word"})
 
 }
