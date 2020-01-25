@@ -1,6 +1,6 @@
 module.exports = class SayAction {
     constructor(sayData) {
-
+//{sayData:[{"Number" : "113"}},NextLayer:13 ,Language :"EN" }
        this.output = {
            "STATUS": 0,
            "ACTION": "SAY_DIGITS",
@@ -31,12 +31,12 @@ module.exports = class SayAction {
            that.AddSayAction({RecordType: "Number",Content:sayData})
 
        }
+
+       if(sayData&&sayData.Language)this.output.LANGUAGE=sayData.Language
     }
     AddSayAction(action){
         this.SayList.push(action)
     }
-
-
     GetOutput(){
         this.output.DATA = this.SayList
         return this.output
