@@ -9,7 +9,6 @@ const Say = require("../libs/ivrAction/say")
 const GoToLayer = require("../libs/ivrAction/goToLayer")
 const Dial = require("../libs/ivrAction/dial")
 
-
 module.exports = class CallRequest {
     constructor(request,reply) {
         if(request.query.reload||request.query.Reload){
@@ -37,7 +36,7 @@ module.exports = class CallRequest {
                 console.error("MODULE_NOT_FOUND "+ request.params.CallLogic  ,e)
             }
             console.error("MODULE load failed  "+ request.params.CallLogic  ,e)
-            console.error("Loading  "+__dirname+"../logic/DefualtCallLogic")
+            console.error("Loading  "+__dirname+"../DefualtCallLogic")
 
             this.callLogic = require("../logic/DefualtCallLogic")
         }
@@ -47,12 +46,6 @@ module.exports = class CallRequest {
         this.ResponseData ={
 
         }
-
-       /* if(options){
-            if(options.port)this.port=options.port
-            if(options.host)this.host=options.host
-        }*/
-
     }
     parseRequest(){
         let that =this
@@ -112,7 +105,6 @@ module.exports = class CallRequest {
     }
 
     // Load Action Into the class Start
-
     Say(sayOpt) {
         this.action= new Say(sayOpt)
 
@@ -123,10 +115,9 @@ module.exports = class CallRequest {
     Dial(dialOpt) {
         this.action= new Dial(dialOpt)
     }
-
     // Load Action Into the class End
-    // Call Custom Param Functions  Start
 
+    // Call Custom Param Functions  Start
     SetParam(parmName,paramValue){
         let params = this.CustomDataParmList.filter(function (p) {return p.Name ==parmName });
         if(params.length>0){
