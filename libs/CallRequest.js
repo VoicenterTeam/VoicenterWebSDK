@@ -1,5 +1,5 @@
-let callLogicFolder = __dirname+"/../../"
-if(global.config.callLogicFolder)callLogicFolder= __dirname+"/../../"+global.config.callLogicFolder
+let callLogicFolder = __dirname+"/../../../"
+if(global.config.callLogicFolder)callLogicFolder= __dirname+"/../../../"+global.config.callLogicFolder
 console.log("Loading CallRequest Class , Call Logic folder is :",callLogicFolder)
 const clear = require("clear-module");
 
