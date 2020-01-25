@@ -1,4 +1,4 @@
-
+console.log("Loading CallRequest Class , Call Logic folder is :",__dirname+"/"+ global.config.callLogicFolder)
 const clear = require("clear-module");
 
 const CallCustomParam = require("../libs/ivrAction/callParam")
