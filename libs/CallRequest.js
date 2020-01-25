@@ -2,6 +2,7 @@
 const Say = require("../libs/ivrAction/say")
 const GoToLayer = require("../libs/ivrAction/goToLayer")
 const Dial = require("../libs/ivrAction/dial")
+const CallCustomParam = require("../libs/ivrAction/callParam")
 
 
 module.exports = class CallRequest {
@@ -87,8 +88,6 @@ module.exports = class CallRequest {
 
 
     }
-
-
     SetNextLayer(layerId){
         this.ResponseData.NEXT_LAYER=layerId
     }
@@ -101,6 +100,7 @@ module.exports = class CallRequest {
     }
 
     // Load Action Into the class Start
+
     Say(sayOpt) {
         this.action= new Say(sayOpt)
 
@@ -113,8 +113,8 @@ module.exports = class CallRequest {
     }
 
     // Load Action Into the class End
-
     // Call Custom Param Functions  Start
+
     SetParam(parmName,paramValue){
         let params = this.CustomDataParmList.filter(function (p) {return p.Name ==parmName });
         if(params.length>0){
@@ -141,45 +141,4 @@ module.exports = class CallRequest {
         return parmsOutput
     }
     // Call Custom Param Functions  End
-}
-
-
-class CallCustomParam {
-    constructor(paramName,paramValue,isUpdated){
-        this.Name=""
-        this.Value =""
-        this.IsUpdated=true
-        if(paramName.constructor.name=="Object" && paramName.Name&& paramName.Name.length>0 ){
-            this.Name=paramName.Name
-            this.SetParamValue(paramName.Value)
-            if(paramName.IsUpdated===false)this.IsUpdated=false
-        }else if (paramName.constructor.name=="String") {
-            this.Name=paramName
-            this.SetParamValue(paramValue)
-            if(isUpdated===false)this.IsUpdated=false
-        }
-    }
-    SetParamValue(val){
-        let valStr =""
-        if(val.constructor.name=="Object" ||val.constructor.name=="Array"){
-            valStr=JSON.stringify(val)
-        }else if(val.constructor.name=="String" ) {
-            valStr=val
-        }else{
-            console.error("Failed to set value to call parameter ",this)
-        }
-        if(valStr.length<0){
-            console.error("parameter value is empty",this)
-        }else if(valStr.length>128){
-            console.error("parameter value is to big ... cant be more than 128 characters ",this)
-        }else{
-            this.Value=valStr
-        }
-    }
-    Update(val){
-        this.SetParamValue(val)
-        this.IsUpdated=true
-    }
-
-
 }
