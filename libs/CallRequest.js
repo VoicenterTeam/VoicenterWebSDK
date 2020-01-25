@@ -56,7 +56,7 @@ module.exports = class CallRequest {
                if(this.request.body.DATA.CUSTOM_DATA&&this.request.body.DATA.CUSTOM_DATA.constructor.name=="Object"){
                    Object.keys(this.request.body.DATA.CUSTOM_DATA).forEach(function (varName) {
                        try{
-                           that.CustomDataParmList.push(new CallCustomParam(varName,this.request.body.DATA.CUSTOM_DATA[varName],false))
+                           that.CustomDataParmList.push(new CallCustomParam(varName,that.request.body.DATA.CUSTOM_DATA[varName],false))
                        }catch (e) {
                            console.error("Failed adding CUSTOM_DATA parameter ",varName)
                        }
@@ -94,7 +94,10 @@ module.exports = class CallRequest {
     }
     async execute() {
         this.done =true
-        this.reply.send(this.action.GetOutput())
+        let responseObj ={}
+        responseObj=this.action.GetOutput();
+        responseObj.CUSTOM_DATA = this.OutputParam()
+        this.reply.send(responseObj)
     }
 
     // Load Action Into the class Start
@@ -111,7 +114,33 @@ module.exports = class CallRequest {
 
     // Load Action Into the class End
 
+    // Call Custom Param Functions  Start
+    SetParam(parmName,paramValue){
+        let params = this.CustomDataParmList.filter(function (p) {return p.Name ==parmName });
+        if(params.length>0){
+            params.forEach(function (param) {
+                param.Update(paramValue)
+            })
+        }else{
+            this.CustomDataParmList.push(new CallCustomParam(parmName,paramValue,true))
+        }
 
+
+    }
+    GetParam(parmName){
+        let params = this.CustomDataParmList.filter(function (p) {return p.Name ==parmName });
+        return params[0].Value
+    }
+    OutputParam(){
+        let parmsOutput ={}
+        let params = this.CustomDataParmList.filter(function (p) {return p.IsUpdated  });
+        params.forEach(function (param) {
+          parmsOutput[param.Name]=param.Value
+        })
+
+        return parmsOutput
+    }
+    // Call Custom Param Functions  End
 }
 
 
@@ -146,6 +175,10 @@ class CallCustomParam {
         }else{
             this.Value=valStr
         }
+    }
+    Update(val){
+        this.SetParamValue(val)
+        this.IsUpdated=true
     }
 
 
