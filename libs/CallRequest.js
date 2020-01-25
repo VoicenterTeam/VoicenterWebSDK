@@ -15,6 +15,7 @@ module.exports = class CallRequest {
         this.DTMF = ""
         this.LayerID = null
         this.PreviousLayerID = null
+        this.CustomDataParmList =[]
         // Load var From Request
         this.parseRequest()
 
@@ -41,7 +42,8 @@ module.exports = class CallRequest {
 
     }
     parseRequest(){
-       try{
+        let that =this
+        try{
            if(this.request.body.DATA){
                if(this.request.body.DATA.DID)this.Did = this.request.body.DATA.DID
                if(this.request.body.DATA.CALLER_ID)this.CallerID = this.request.body.DATA.CALLER_ID
@@ -49,11 +51,21 @@ module.exports = class CallRequest {
                if(this.request.body.DATA.DTMF)this.DTMF = this.request.body.DATA.DTMF
                if(this.request.body.DATA.LAYER_ID)this.LayerID = this.request.body.DATA.LAYER_ID
                if(this.request.body.DATA.PREVIOUS_LAYER_ID)this.PreviousLayerID = this.request.body.DATA.PREVIOUS_LAYER_ID
+
+               //Parsing CUSTOM_DATA
+               if(this.request.body.DATA.CUSTOM_DATA&&this.request.body.DATA.CUSTOM_DATA.constructor.name=="Object"){
+                   Object.keys(this.request.body.DATA.CUSTOM_DATA).forEach(function (varName) {
+                       try{
+                           that.CustomDataParmList.push(new CallCustomParam(varName,this.request.body.DATA.CUSTOM_DATA[varName],false))
+                       }catch (e) {
+                           console.error("Failed adding CUSTOM_DATA parameter ",varName)
+                       }
+                   })
+               }
            }
        }catch (e) {
            console.error("parseRequest failed ",e)
        }
-
     }
     async DoCallLogic() {
         await this.callLogic(this)
@@ -98,6 +110,43 @@ module.exports = class CallRequest {
     }
 
     // Load Action Into the class End
+
+
+}
+
+
+class CallCustomParam {
+    constructor(paramName,paramValue,isUpdated){
+        this.Name=""
+        this.Value =""
+        this.IsUpdated=true
+        if(paramName.constructor.name=="Object" && paramName.Name&& paramName.Name.length>0 ){
+            this.Name=paramName.Name
+            this.SetParamValue(paramName.Value)
+            if(paramName.IsUpdated===false)this.IsUpdated=false
+        }else if (paramName.constructor.name=="String") {
+            this.Name=paramName
+            this.SetParamValue(paramValue)
+            if(isUpdated===false)this.IsUpdated=false
+        }
+    }
+    SetParamValue(val){
+        let valStr =""
+        if(val.constructor.name=="Object" ||val.constructor.name=="Array"){
+            valStr=JSON.stringify(val)
+        }else if(val.constructor.name=="String" ) {
+            valStr=val
+        }else{
+            console.error("Failed to set value to call parameter ",this)
+        }
+        if(valStr.length<0){
+            console.error("parameter value is empty",this)
+        }else if(valStr.length>128){
+            console.error("parameter value is to big ... cant be more than 128 characters ",this)
+        }else{
+            this.Value=valStr
+        }
+    }
 
 
 }
