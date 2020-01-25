@@ -2,12 +2,12 @@ const CallRequest = require("../libs/CallRequest")
 
 
 module.exports = function (fastify, opts, done) {
-    fastify.get('/:CallLogic', handler)
-    fastify.post('/:CallLogic', handler)
+    fastify.get('/:CallLogic', ivrHandler)
+    fastify.post('/:CallLogic', ivrHandler)
     done()
 }
 
-async function  handler  (req, reply) {
+async function ivrHandler  (req, reply) {
     let callRequest = new CallRequest(req, reply)
     await callRequest.DoCallLogic();
    // await  callRequest.execute()

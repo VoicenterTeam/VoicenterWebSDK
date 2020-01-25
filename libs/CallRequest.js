@@ -1,12 +1,18 @@
+
+const clear = require("clear-module");
+
+const CallCustomParam = require("../libs/ivrAction/callParam")
 //Load Call Action
 const Say = require("../libs/ivrAction/say")
 const GoToLayer = require("../libs/ivrAction/goToLayer")
 const Dial = require("../libs/ivrAction/dial")
-const CallCustomParam = require("../libs/ivrAction/callParam")
 
 
 module.exports = class CallRequest {
     constructor(request,reply) {
+        if(request.query.reload||request.query.Reload){
+            clear('../'+global.config.callLogicFolder+'/'+request.params.CallLogic )
+        }
         this.request = request;
         this.reply = reply;
         // Main Request IVR_LAYER_INPUT Vars
