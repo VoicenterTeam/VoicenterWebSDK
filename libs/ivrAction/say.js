@@ -1,6 +1,7 @@
 module.exports = class SayAction {
-    constructor(sayData) {
-//{sayData:[{"Number" : "113"}},NextLayer:13 ,Language :"EN" }
+    constructor(sayData,nextLayer,language) {
+//call.Say({sayData:[{"Number" : "113"}],NextLayer:13 ,Language :"EN" })
+//call.Say([{"Number" : "113"}],13 ,"EN" )
        this.output = {
            "STATUS": 0,
            "ACTION": "SAY_DIGITS",
@@ -13,6 +14,9 @@ module.exports = class SayAction {
         if(sayData&&sayData.sayData){
             if (sayData.NextLayer) {
                 this.output.NEXT_LAYER=sayData.NextLayer
+            }
+            if(sayData&&sayData.Language){
+                this.output.LANGUAGE=sayData.Language
             }
             sayData=sayData.sayData;
         }
@@ -31,8 +35,10 @@ module.exports = class SayAction {
            that.AddSayAction({RecordType: "Number",Content:sayData})
 
        }
+        if(nextLayer&&nextLayer.constructor.name==="Number")this.output.NEXT_LAYER=nextLayer
+        if(language&&language.constructor.name==="String")this.output.LANGUAGE=language
 
-       if(sayData&&sayData.Language)this.output.LANGUAGE=sayData.Language
+
     }
     AddSayAction(action){
         this.SayList.push(action)
