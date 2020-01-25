@@ -131,8 +131,14 @@ module.exports = class CallRequest {
 
     }
     GetParam(parmName){
-        let params = this.CustomDataParmList.filter(function (p) {return p.Name ==parmName });
-        return params[0].Value
+        let parmVal = ""
+        try{
+            let params = this.CustomDataParmList.filter(function (p) {return p.Name ==parmName });
+            parmVal=params[0].Value
+        }catch (e) {
+            console.error("Failed to get parameter value for :"+parmName,e)
+        }
+        return parmVal;
     }
     OutputParam(){
         let parmsOutput ={}
