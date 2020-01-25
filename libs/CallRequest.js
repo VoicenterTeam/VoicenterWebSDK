@@ -105,12 +105,12 @@ module.exports = class CallRequest {
     }
 
     // Load Action Into the class Start
-    Say(sayOpt) {
-        this.action= new Say(sayOpt)
+    Say(sayData,nextLayer,language) {
+        this.action= new Say(sayData,nextLayer,language)
 
     }
-    GoToLayer(goToLayerOpt) {
-        this.action= new GoToLayer(goToLayerOpt)
+    GoToLayer(goToLayerData ,callerName) {
+        this.action= new GoToLayer(goToLayerData ,callerName)
     }
     Dial(dialOpt) {
         this.action= new Dial(dialOpt)

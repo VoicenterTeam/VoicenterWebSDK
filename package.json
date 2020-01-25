@@ -1,6 +1,6 @@
 {
   "name": "voicenter-web-sdk",
-  "version": "0.9.6",
+  "version": "0.1.01",
   "description": "Voicenter API Web-service SDK including all what you need for IVR, Popup , Cdr2CRM and more ...",
   "main": "index.js",
   "scripts": {
