@@ -21,6 +21,7 @@ module.exports = class VoicenterWebSDK {
         try {
             this.fastify.register(require('./routes/Ivr'), { prefix: '/Ivr' });
             this.fastify.register(require('./routes/Cdr'), { prefix: '/Cdr' });
+            this.fastify.register(require('./routes/Popup'), { prefix: '/Popup' });
 
             await this.fastify.listen({ port: this.config.port, host: this.config.host});
             fastify.log.info(`server listening on ${fastify.server.address().port}`)

@@ -2,6 +2,7 @@ let cdrLogicFolder = __dirname+"/../../../";
 if(global.config.cdrLogicFolder)cdrLogicFolder= __dirname+"/../../../"+global.config.cdrLogicFolder;
 console.log("Loading CallRequest Class , Call Logic folder is :",cdrLogicFolder);
 const clear = require("clear-module");
+const CallCustomParam = require("../libs/ivrAction/callParam");
 
 module.exports = class CdrRequest {
     constructor(request,reply) {
@@ -33,6 +34,7 @@ module.exports = class CdrRequest {
         this.target_country = null;
         this.caller_country = null;
         this.IVR  = [];
+        this.CustomDataParmList =[];
         this.ResponseOkData ={"err":0,"errdesc":"OK"};
 
     }
@@ -45,7 +47,7 @@ module.exports = class CdrRequest {
             console.error("MODULE reload failed  "+   this.request.params.CdrLogic  ,e)
         }
         try{
-            this.callLogic = require( cdrLogicFolder+'/'+this.request.params.CdrLogic  );
+            this.cdrLogic = require( cdrLogicFolder+'/'+this.request.params.CdrLogic  );
         }catch( e ) {
             if ( e.code === 'MODULE_NOT_FOUND' ) {
                 // The module hasn't been found
@@ -115,18 +117,5 @@ module.exports = class CdrRequest {
         if(!this.done)this.Done()
 
     }
-    // Call Custom Param Functions  Start
-    SetParam(parmName,paramValue){
-        let params = this.CustomDataParmList.filter(function (p) {return p.Name ===parmName });
-        if(params.length>0){
-            params.forEach(function (param) {
-                param.Update(paramValue)
-            })
-        }else{
-            this.CustomDataParmList.push(new CallCustomParam(parmName,paramValue,true));
-        }
 
-    }
-
-    // Call Custom Param Functions  End
 };
