@@ -4,9 +4,9 @@ Voicenter API  Web-service SDK  including all what you need for IVR, Popup , Cdr
 ### Running the project
 For Running the server, run a script with the following logic :
 ```javascript
-    const VoicenterWebSDK = require("voicenter-web-sdk")
-    const vcSDK = new VoicenterWebSDK({host:'0.0.0.0',port:3000})
-    vcSDK.start()
+    const VoicenterWebSDK = require("voicenter-web-sdk");
+    const vcSDK = new VoicenterWebSDK({host:'0.0.0.0',port:3000});
+    vcSDK.start();
 ```
 this will start a web service that will serve and interact with the different Web API's that Voicenter offers to its customers. more information can be found in:
 [https://www.voicenter.co.il/API]
@@ -23,12 +23,12 @@ http://127.0.0.1:3000/Ivr/TestLogic?reload=true
 A simple Call Logic module should look the following example and should be located inside a TestLogic.js file in the root of the project:
 ```javascript
     module.exports = async function (call) {
-	    call.SetParam("foo","Hello")
-	    call.SetParam("foo",call.GetParam("foo")+" World")
-	    if(call.CallerID=="0512345678"){
-		    call.Say(111)}
-		   else{
-		    call.GoToLayer(22)  
+	    call.SetParam("foo","Hello");
+	    call.SetParam("foo",call.GetParam("foo")+" World");
+	    if(call.CallerID==="0512345678"){
+		    call.Say(111);
+		   }else{
+		    call.GoToLayer(22);
 	     }
     }
 ```
@@ -57,9 +57,9 @@ the function will be getting the call object with the following parameters and f
 ## 2. call.Say(SayOptions)
 **Description:** Executes the Say action.
 **SayOptions:** An object received by the Say function - allowing Voicenter IVR to announce the values its getting, such as audio file names, numbers, digits or dates - by the order they are received.
-```javascript
+```json
 	{
-	 SayData:[
+	 "SayData":[
 	 	{"Recording":"youhave.wav"},
 		{"Number":"13"},
 		{"Recording":"usd.wav"},
@@ -67,8 +67,8 @@ the function will be getting the call object with the following parameters and f
 	 	{"Recording":"your-account-number-is.wav"},
 	 	{"Digits":"1234"}
 	 	],
-	 NextLayer:13,
-	 Language :"EN"
+	 "NextLayer":13,
+	 "Language" :"EN"
 	}
 ```
 #### SayData  - can contain any of the following options.
@@ -94,5 +94,24 @@ are is a valid example:
 ```javascript
 call.GoToLayer({NextLayer:22,callerName:"John Doe"})
 ```
-## 4.call.Execute()
+
+## 4. call.Dial(Targets,DialOptions,call)
+**Description:** Allows forwarding the caller to call external phone number  or Voicenter Extensions .
+ 1. **Targets** - List of destinations to call (phone or Voicenter Extensions).  
+ 2. **DialOptions**- Options Dial configuration .
+ 3. **call** - call object for internal use , Dynamic callerID for example .
+
+```javascript
+call.Dial("0523574321",{"Recording":true ,"Duration":1800,"Ring":60,"NextVo":666,"CallerID":"0722776772","CallerName":"Voicenter Api Team"},call)
+```
+or:
+```javascript
+call.Dial(["0523574321","0722776772"],{"Recording":true ,"Duration":1800,"Ring":60,"NextVo":666,"CallerID":"0722776772","CallerName":"Voicenter Api Team"},call)
+```
+or:
+
+```javascript
+call.Dial([{"Target":"0523574321","Type":"PHONE"}],{"Recording":true ,"Duration":1800,"Ring":60,"NextVo":666,"CallerID":"0722776772","CallerName":"Voicenter Api Team"},call)
+```
+## 5.call.Execute()
 Description: Mandetory action - to finilized the process of the current request and send back the calculated answer back to Voicenter IVR system.
