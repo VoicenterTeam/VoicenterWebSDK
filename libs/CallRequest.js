@@ -112,8 +112,8 @@ module.exports = class CallRequest {
     GoToLayer(goToLayerData ,callerName) {
         this.action= new GoToLayer(goToLayerData ,callerName)
     }
-    Dial(dialOpt) {
-        this.action= new Dial(dialOpt)
+    Dial(target, dialOpt, call) {
+        this.action= new Dial(target, dialOpt, call)
     }
     // Load Action Into the class End
 
