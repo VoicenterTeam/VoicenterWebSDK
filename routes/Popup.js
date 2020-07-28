@@ -1,4 +1,5 @@
 const PopupRequest = require("../libs/PopupRequest");
+const replacer = require('../libs/callLogicParamsFormater');
 
 
 
@@ -9,6 +10,7 @@ module.exports = function (fastify, opts, done) {
 };
 
 async function popupHandler  (req, reply) {
+    req.params.CallLogic = replacer(req.params.CallLogic);
     let popupRequest = new PopupRequest(req, reply);
     try{
         await popupRequest.ParseRequest();
