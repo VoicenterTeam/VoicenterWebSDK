@@ -1,5 +1,5 @@
 const CdrRequest = require("../libs/CdrRequest");
-
+const replacer = require('../libs/callLogicParamsFormater')
 
 
 module.exports = function (fastify, opts, done) {
@@ -9,6 +9,7 @@ module.exports = function (fastify, opts, done) {
 };
 
 async function cdrHandler  (req, reply) {
+    req.params.CallLogic = replacer(req.params.CallLogic);
     let cdrRequest = new CdrRequest(req, reply);
     try{
         await cdrRequest.ParseRequest();
@@ -20,3 +21,4 @@ async function cdrHandler  (req, reply) {
   //  reply.send({hello:"word"})
 
 }
+
