@@ -12,7 +12,7 @@ const Dial = require("../libs/ivrAction/dial")
 module.exports = class CallRequest {
     constructor(request,reply) {
         if(request.query.reload||request.query.Reload){
-            clear(callLogicFolder+'/'+request.params.CallLogic )
+            clear(callLogicFolder + replacer(request.params.CallLogic))
         }
         this.request = request;
         this.reply = reply;
@@ -28,7 +28,8 @@ module.exports = class CallRequest {
         this.parseRequest()
 
         try {
-            this.callLogic = require( callLogicFolder+'/'+request.params.CallLogic  );
+            console.log('callLogicFolder123',callLogicFolder);
+            this.callLogic = require(callLogicFolder + replacer(request.params.CallLogic));
         }
         catch( e ) {
             if ( e.code === 'MODULE_NOT_FOUND' ) {
@@ -112,7 +113,7 @@ module.exports = class CallRequest {
     GoToLayer(goToLayerData ,callerName) {
         this.action= new GoToLayer(goToLayerData ,callerName)
     }
-    Dial(target, dialOpt, call) {
+    Dial(target,dialOpt,call) {
         this.action= new Dial(target, dialOpt, call)
     }
     // Load Action Into the class End
@@ -150,4 +151,8 @@ module.exports = class CallRequest {
         return parmsOutput
     }
     // Call Custom Param Functions  End
+}
+
+function replacer(str) {
+    return str.replace(/-/gi,'/');
 }
