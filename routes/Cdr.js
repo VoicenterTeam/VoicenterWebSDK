@@ -9,7 +9,7 @@ module.exports = function (fastify, opts, done) {
 };
 
 async function cdrHandler  (req, reply) {
-    req.params.CallLogic = replacer(req.params.CallLogic);
+    req.params.CallLogic = replacer(req.params.CdrLogic);
     let cdrRequest = new CdrRequest(req, reply);
     try{
         await cdrRequest.ParseRequest();
