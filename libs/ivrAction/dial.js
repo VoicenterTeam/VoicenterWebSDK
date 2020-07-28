@@ -14,6 +14,11 @@ module.exports = class DialAction {
            STATUS: 0,
            TARGETS: []
         };
+        this.output.CALLER_ID = dialOptions.CallerID;
+        this.output.NEXT_VO_ID = dialOptions.NextVo;
+        this.output.MAX_CALL_DURATION=dialOptions.Duration;
+        this.output.MAX_DIAL_DURATION=dialOptions.Ring;
+
         let that =this;
         //Target Parse
         if (target.constructor.name==="Object"||target.constructor.name==="String"){
@@ -44,20 +49,20 @@ module.exports = class DialAction {
         this.CallerName=dialOptions.CallerName;
         this.MAX_CALL_DURATION=dialOptions.Duration;
         this.MAX_DIAL_DURATION=dialOptions.Ring;
-        this.CallerID=dialOptions.CallerID;
+        this.NextVo=dialOptions.NextVo;
     }
 };
 
 class DialTarget {
     constructor(target){
         this.TARGET ="";
-        this.TYPE ="Phone";
+        this.TYPE ="PHONE";
      if(target.constructor.name==="Object"){
          if(target.Target &&target.Target.constructor.name==="String" ) this.TARGET =target.Target;
          if(target.Type &&target.Type.constructor.name==="String") this.TYPE =target.Type;
      }else if(target.constructor.name==="String"){
          if(target.length>0 ) this.TARGET =target;
-         this.TYPE ="Phone";
+         this.TYPE ="PHONE";
      }
     }
 }
