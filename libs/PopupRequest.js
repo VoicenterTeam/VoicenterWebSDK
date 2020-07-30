@@ -16,6 +16,7 @@ module.exports = class PopupRequest {
         this.ivruniqueid = null;
         this.did = null;
         this.queueid = null;
+        this.status = null;
        // Set up Response Data
         this.Result ={} ;
         this.Result.STATUS="OK";
@@ -50,14 +51,38 @@ module.exports = class PopupRequest {
             this.popupLogic = require("../DefualtPopupLogic")
         }
         try{
-           if(this.request.body){
+           if(this.request.body  ){
                if(this.request.body.phone)this.phone = this.request.body.phone;
+               if(this.request.body.ivrid)this.ivruniqueid = this.request.body.ivrid;
+               if(this.request.body.extenUser)this.target = this.request.body.extenUser;
+               if(this.request.body.did)this.did = this.request.body.did;
+               if(this.request.body.statusCall)this.status = this.request.body.statusCall;
 
                //Parsing CUSTOM_DATA
                if(this.request.body.CUSTOM_DATA&&this.request.body.CUSTOM_DATA.constructor.name==="Object"){
                    Object.keys(this.request.body.DATA.CUSTOM_DATA).forEach(function (varName) {
                        try{
                            that.CustomDataParmList.push(new CallCustomParam(varName,that.request.body.DATA.CUSTOM_DATA[varName],false));
+                       }catch (e) {
+                           console.error("Failed adding CUSTOM_DATA parameter ",varName);
+                       }
+                   })
+               }
+           }
+           else if (this.request.query)
+           {
+               if(this.request.query.phone)this.phone = this.request.query.phone;
+               if(this.request.query.ivrid)this.ivruniqueid = this.request.query.ivrid;
+               if(this.request.query.extenUser)this.target = this.request.query.extenUser;
+               if(this.request.query.did)this.did = this.request.query.did;
+               if(this.request.query.statusCall)this.status = this.request.query.statusCall;
+
+
+               //Parsing CUSTOM_DATA
+               if(this.request.query.CUSTOM_DATA&&this.request.query.CUSTOM_DATA.constructor.name==="Object"){
+                   Object.keys(this.request.query.DATA.CUSTOM_DATA).forEach(function (varName) {
+                       try{
+                           that.CustomDataParmList.push(new CallCustomParam(varName,that.request.query.DATA.CUSTOM_DATA[varName],false));
                        }catch (e) {
                            console.error("Failed adding CUSTOM_DATA parameter ",varName);
                        }
