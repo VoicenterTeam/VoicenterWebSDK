@@ -10,7 +10,7 @@ module.exports = function (fastify, opts, done) {
 };
 
 async function popupHandler  (req, reply) {
-    req.params.CallLogic = replacer(req.params.CallLogic);
+    req.params.CallLogic = replacer(req.params.PopupLogic);
     let popupRequest = new PopupRequest(req, reply);
     try{
         await popupRequest.ParseRequest();
