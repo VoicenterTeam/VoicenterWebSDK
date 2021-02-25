@@ -40,8 +40,8 @@ module.exports = class CdrRequest {
     }
     async ParseRequest(){
         try {
-            if( this.request.params.CdrLogic && (request.query.reload||request.query.Reload)){
-            clear(cdrLogicFolder+'/'+request.params.CdrLogic )
+            if( this.request.params.CdrLogic && (this.request.query.reload||this.request.query.Reload)){
+            clear(cdrLogicFolder+'/'+this.request.params.CdrLogic )
             }
         }catch (e) {
             console.error("MODULE reload failed  "+   this.request.params.CdrLogic  ,e)
