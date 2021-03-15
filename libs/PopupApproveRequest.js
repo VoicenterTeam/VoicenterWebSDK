@@ -3,25 +3,16 @@ if (global.config.popupApproveLogicFolder) popupApproveLogicFolder = __dirname +
 console.log("Loading PopupRequest Class , popup Logic folder is :", popupApproveLogicFolder);
 const clear = require("clear-module");
 const CallCustomParam = require("../libs/ivrAction/callParam");
-const jwt = require('jsonwebtoken');
+const PopupRequest = require("./PopupRequest");
+const jwt = require("jsonwebtoken");
 
-const ssh = 'shhhhh';
+const ssh = "shhhhh";
 
-module.exports = class PopupRequest {
+module.exports = class PopupApproveRequest extends PopupRequest {
     constructor(request, reply) {
-        this.request = request;
-        this.reply = reply;
+        super(request, reply);
         this.popupApproveLogic = null;
-        this.done = false;
-        // Main Request Popup  Vars
-        this.phone = null;
-        this.target = null;
-        this.ivruniqueid = null;
-        this.did = null;
-        this.queueid = null;
-        this.status = null;
         this.popupURL = null;
-        // Set up Response Data
         this.Result = '';
     }
     async ParseRequest() {
@@ -101,19 +92,5 @@ module.exports = class PopupRequest {
     async DoPopupApproveLogic() {
         await this.popupApproveLogic(this);
         if (!this.done) this.Done();
-
     }
-    // Call Custom Param Functions  Start
-    SetParam(parmName, paramValue) {
-        let params = this.CustomDataParmList.filter(function (p) { return p.Name === parmName });
-        if (params.length > 0) {
-            params.forEach(function (param) {
-                param.Update(paramValue)
-            })
-        } else {
-            this.CustomDataParmList.push(new CallCustomParam(parmName, paramValue, true));
-        }
-
-    }
-    // Call Custom Param Functions  End
-};
+}
