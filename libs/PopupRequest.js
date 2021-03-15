@@ -5,7 +5,14 @@ const clear = require("clear-module");
 const CallCustomParam = require("../libs/ivrAction/callParam");
 const jwt = require('jsonwebtoken');
 
-const jwtKey = "shhhhh";
+let keyConfig = {};
+try {
+    keyConfig = require(popupLogicFolder + '/' + 'keyConfig');
+} catch(err) {
+    console.log(err);
+}
+
+const jwtKey = keyConfig.jwtKey;
 
 module.exports = class PopupRequest {
     constructor(request,reply) {
