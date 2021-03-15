@@ -29,15 +29,15 @@ module.exports = class PopupApproveRequest extends PopupRequest {
             } catch (e) {
                 if (e.code === 'MODULE_NOT_FOUND') {
                     // The module hasn't been found
-                    console.error("MODULE_NOT_FOUND " + this.request.params.PopupLogic, e)
+                    console.error("MODULE_NOT_FOUND " + this.request.params.PopupApproveLogic, e)
                 }
-                console.error("MODULE load failed  " + this.request.params.PopupLogic, e);
+                console.error("MODULE load failed  " + this.request.params.PopupApproveLogic, e);
                 console.error("Loading  " + __dirname + "../DefualtCallLogic");
 
-                this.popupLogic = require("../DefualtPopupLogic")
+                this.popupApproveLogic = require("../DefualtPopupLogic")
             }
         } else {
-            this.popupLogic = require("../DefualtPopupLogic")
+            this.popupApproveLogic = require("../DefualtPopupLogic")
         }
         try {
             if (this.request.body) {
@@ -59,7 +59,7 @@ module.exports = class PopupApproveRequest extends PopupRequest {
                     })
                 }
             }
-            else if (this.request.query) {
+            if (this.request.query) {
                 let popapRequestData = jwt.verify(this.request.query.data, ssh);
                 if (popapRequestData.phone) this.phone = popapRequestData.phone;
                 if (popapRequestData.ivrid) this.ivruniqueid = popapRequestData.ivrid;

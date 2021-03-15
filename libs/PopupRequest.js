@@ -3,6 +3,9 @@ if(global.config.popupLogicFolder)popupLogicFolder= __dirname+"/../../../"+globa
 console.log("Loading PopupRequest Class , popup Logic folder is :",popupLogicFolder);
 const clear = require("clear-module");
 const CallCustomParam = require("../libs/ivrAction/callParam");
+const jwt = require('jsonwebtoken');
+
+const jwtKey = "shhhhh";
 
 module.exports = class PopupRequest {
     constructor(request,reply) {
@@ -101,6 +104,15 @@ module.exports = class PopupRequest {
         await this.popupLogic(this);
         if(!this.done)this.Done()
 
+    }
+    ApprovePopup(approveUrlPath) {
+        this.done = true;
+        const protocol = this.request.protocol || 'http://';
+        const host = this.request.hostname;
+        const popupPath = this.request.raw.originalUrl.split('?')[0];
+        const query = { ...this, request: undefined, reply: undefined, Result: undefined, popupURL: protocol + host + popupPath };
+        this.Result["URL"] = protocol + host + '/PopupApprove/' + approveUrlPath + '?reload=true&data=' + jwt.sign(query, jwtKey);
+        this.reply.send(this.Result);
     }
     // Call Custom Param Functions  Start
     SetParam(parmName,paramValue){
