@@ -21,21 +21,11 @@ module.exports = class PopupApproveRequest extends PopupRequest {
         this.popupLogic = null;
         this.popupURL = null;
         this.Result = '';
-        this.requestFields = {
-            phone: 'phone',
-            ivruniqueid: 'ivruniqueid',
-            target: 'target',
-            did: 'did',
-            status: 'status',
-            popupURL: 'popupURL',
-        };
     }
 
     async ParseJWTData() {
-        let popapRequestData = jwt.verify(this.request.query.data, jwtKey);
-        for (let queryField in requestFields) {
-            this[requestFields[queryField]] = popapRequestData[queryField];
-        }
+        let jwtData = jwt.verify(this.request.query.data, jwtKey);
+        this = { ...this, ...jwtData };
     }
 
     Done() {

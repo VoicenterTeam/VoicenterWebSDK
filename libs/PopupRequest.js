@@ -118,7 +118,7 @@ module.exports = class PopupRequest {
         const host = this.request.hostname;
         const popupPath = this.request.raw.originalUrl.split('?')[0];
         const query = { ...this, request: undefined, reply: undefined, Result: undefined, popupURL: protocol + host + popupPath };
-        this.Result["URL"] = protocol + host + '/PopupApprove/' + approveUrlPath + '?reload=true&data=' + jwt.sign(query, jwtKey);
+        this.Result["URL"] = protocol + host + '/PopupApprove/' + approveUrlPath + '?&data=' + jwt.sign(query, jwtKey);
         this.reply.send(this.Result);
     }
     // Call Custom Param Functions  Start
