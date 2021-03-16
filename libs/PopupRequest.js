@@ -27,6 +27,7 @@ module.exports = class PopupRequest {
         this.did = null;
         this.queueid = null;
         this.status = null;
+        this.approved = null;
        // Set up Response Data
         this.Result ={} ;
         this.Result.STATUS="OK";
@@ -67,6 +68,7 @@ module.exports = class PopupRequest {
                if(this.request.body.extenUser)this.target = this.request.body.extenUser;
                if(this.request.body.did)this.did = this.request.body.did;
                if(this.request.body.statusCall)this.status = this.request.body.statusCall;
+               if(this.request.body.approved)this.approved = this.request.body.approved;
 
                //Parsing CUSTOM_DATA
                if(this.request.body.CUSTOM_DATA&&this.request.body.CUSTOM_DATA.constructor.name==="Object"){
@@ -86,6 +88,7 @@ module.exports = class PopupRequest {
                if(this.request.query.extenUser)this.target = this.request.query.extenUser;
                if(this.request.query.did)this.did = this.request.query.did;
                if(this.request.query.statusCall)this.status = this.request.query.statusCall;
+               if(this.request.query.approved)this.approved = this.request.query.approved;
 
 
                //Parsing CUSTOM_DATA
