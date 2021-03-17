@@ -25,7 +25,7 @@ module.exports = class PopupApproveRequest extends PopupRequest {
 
     async ParseJWTData() {
         let jwtData = jwt.verify(this.request.query.data, jwtKey);
-        this = { ...this, ...jwtData };
+        Object.assign(this, jwtData);
     }
 
     Done() {
