@@ -3,6 +3,16 @@ if(global.config.popupLogicFolder)popupLogicFolder= __dirname+"/../../../"+globa
 console.log("Loading PopupRequest Class , popup Logic folder is :",popupLogicFolder);
 const clear = require("clear-module");
 const CallCustomParam = require("../libs/ivrAction/callParam");
+const jwt = require('jsonwebtoken');
+
+let keyConfig = {};
+try {
+    keyConfig = require(popupLogicFolder + '/' + 'keyConfig');
+} catch(err) {
+    console.log(err);
+}
+
+const jwtKey = keyConfig.jwtKey;
 
 module.exports = class PopupRequest {
     constructor(request,reply) {
@@ -17,6 +27,7 @@ module.exports = class PopupRequest {
         this.did = null;
         this.queueid = null;
         this.status = null;
+        this.approved = null;
        // Set up Response Data
         this.Result ={} ;
         this.Result.STATUS="OK";
@@ -57,6 +68,7 @@ module.exports = class PopupRequest {
                if(this.request.body.extenUser)this.target = this.request.body.extenUser;
                if(this.request.body.did)this.did = this.request.body.did;
                if(this.request.body.statusCall)this.status = this.request.body.statusCall;
+               if(this.request.body.approved)this.approved = this.request.body.approved;
 
                //Parsing CUSTOM_DATA
                if(this.request.body.CUSTOM_DATA&&this.request.body.CUSTOM_DATA.constructor.name==="Object"){
@@ -76,6 +88,7 @@ module.exports = class PopupRequest {
                if(this.request.query.extenUser)this.target = this.request.query.extenUser;
                if(this.request.query.did)this.did = this.request.query.did;
                if(this.request.query.statusCall)this.status = this.request.query.statusCall;
+               if(this.request.query.approved)this.approved = this.request.query.approved;
 
 
                //Parsing CUSTOM_DATA
@@ -101,6 +114,15 @@ module.exports = class PopupRequest {
         await this.popupLogic(this);
         if(!this.done)this.Done()
 
+    }
+    ApprovePopup(approveUrlPath) {
+        this.done = true;
+        const protocol = this.request.protocol || 'http://';
+        const host = this.request.hostname;
+        const popupPath = this.request.raw.originalUrl.split('?')[0];
+        const query = { ...this, request: undefined, reply: undefined, Result: undefined, popupURL: protocol + host + popupPath };
+        this.Result["URL"] = protocol + host + '/PopupApprove/' + approveUrlPath + '?&data=' + jwt.sign(query, jwtKey);
+        this.reply.send(this.Result);
     }
     // Call Custom Param Functions  Start
     SetParam(parmName,paramValue){
