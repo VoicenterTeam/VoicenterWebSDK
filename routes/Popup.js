@@ -4,13 +4,13 @@ const replacer = require('../libs/callLogicParamsFormater');
 
 
 module.exports = function (fastify, opts, done) {
-    fastify.get( '/:PopupLogic', popupHandler);
-    fastify.post('/:PopupLogic', popupHandler);
+    fastify.get( '/:modulePath', popupHandler);
+    fastify.post('/:modulePath', popupHandler);
     done()
 };
 
 async function popupHandler  (req, reply) {
-    req.params.CallLogic = replacer(req.params.PopupLogic);
+    req.params.modulePath = replacer(req.params.modulePath);
     let popupRequest = new PopupRequest(req, reply);
     try{
         await popupRequest.ParseRequest();

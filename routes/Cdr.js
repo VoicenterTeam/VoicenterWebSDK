@@ -3,13 +3,13 @@ const replacer = require('../libs/callLogicParamsFormater')
 
 
 module.exports = function (fastify, opts, done) {
-    fastify.get('/:CdrLogic', cdrHandler);
-    fastify.post('/:CdrLogic', cdrHandler);
+    fastify.get('/:modulePath', cdrHandler);
+    fastify.post('/:modulePath', cdrHandler);
     done()
 };
 
 async function cdrHandler  (req, reply) {
-    req.params.CallLogic = replacer(req.params.CdrLogic);
+    req.params.modulePath = replacer(req.params.modulePath);
     let cdrRequest = new CdrRequest(req, reply);
     try{
         await cdrRequest.ParseRequest();
