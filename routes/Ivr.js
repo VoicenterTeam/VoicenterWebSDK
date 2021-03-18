@@ -3,13 +3,13 @@ const replacer = require('../libs/callLogicParamsFormater')
 
 
 module.exports = function (fastify, opts, done) {
-    fastify.get('/:CallLogic', ivrHandler)
-    fastify.post('/:CallLogic', ivrHandler)
+    fastify.get('/:modulePath', ivrHandler)
+    fastify.post('/:modulePath', ivrHandler)
     done()
 }
 
 async function ivrHandler  (req, reply) {
-    req.params.CallLogic = replacer(req.params.CallLogic);
+    req.params.modulePath = replacer(req.params.modulePath);
     let callRequest = new CallRequest(req, reply)
     await callRequest.DoCallLogic();
    // await  callRequest.Execute()

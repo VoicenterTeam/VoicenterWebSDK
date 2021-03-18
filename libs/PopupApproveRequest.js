@@ -3,29 +3,30 @@ if (global.config.popupLogicFolder) popupLogicFolder = __dirname + "/../../../" 
 console.log("Loading PopupRequest Class , popup Logic folder is :", popupLogicFolder);
 const clear = require("clear-module");
 const CallCustomParam = require("../libs/ivrAction/callParam");
-const PopupRequest = require("./PopupRequest");
+const Request = require("./Request");
 const jwt = require("jsonwebtoken");
 
 let keyConfig = {};
 try {
-    keyConfig = require(popupLogicFolder + '/' + 'keyConfig');
+    keyConfig = require(global.config.modulePath + '/' + 'keyConfig');
 } catch(err) {
     console.log(err);
 }
 
 const jwtKey = keyConfig.jwtKey;
 
-module.exports = class PopupApproveRequest extends PopupRequest {
+module.exports = class PopupApproveRequest extends Request {
     constructor(request, reply) {
         super(request, reply);
-        this.popupLogic = null;
         this.popupURL = null;
         this.Result = '';
+        this.clearActionModule();
+        this.parseRequest();
     }
 
     async ParseJWTData() {
         let jwtData = jwt.verify(this.request.query.data, jwtKey);
-        this = { ...this, ...jwtData };
+        Object.assign(this, jwtData);
     }
 
     Done() {
@@ -35,7 +36,7 @@ module.exports = class PopupApproveRequest extends PopupRequest {
     }
 
     async DoPopupApproveLogic() {
-        await this.popupLogic(this);
+        await this.modulePath(this);
         if (!this.done) this.Done();
     }
 }
