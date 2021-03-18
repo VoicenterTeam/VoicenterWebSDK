@@ -1,6 +1,3 @@
-// let actionFolder = __dirname + "/../../../";
-// if (global.config.actionFolder) actionFolder = __dirname + "/../../../" + global.config.actionFolder;
-// console.log("Loading PopupRequest Class , popup Logic folder is :", global.config.modulePath);
 const clear = require("clear-module");
 const CallCustomParam = require("../libs/ivrAction/callParam");
 const path = require('path');

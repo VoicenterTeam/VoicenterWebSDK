@@ -1,6 +1,3 @@
-// let popupLogicFolder = __dirname+"/../../../";
-// if(global.config.popupLogicFolder)popupLogicFolder= __dirname+"/../../../"+global.config.popupLogicFolder;
-// console.log("Loading PopupRequest Class , popup Logic folder is :",popupLogicFolder);
 const clear = require("clear-module");
 const CallCustomParam = require("../libs/ivrAction/callParam");
 const jwt = require('jsonwebtoken');

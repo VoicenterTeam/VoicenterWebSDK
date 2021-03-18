@@ -1,4 +1,3 @@
-// console.log("Loading CallRequest Class , Call Logic folder is :", callLogicFolder);
 const clear = require("clear-module");
 const Request = require('./Request');
 
