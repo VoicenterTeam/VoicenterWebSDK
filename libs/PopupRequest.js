@@ -18,6 +18,7 @@ const jwtKey = keyConfig.jwtKey;
 
 module.exports = class PopupRequest extends Request{
     constructor(request, reply) {
+        super(request, reply);
         this.done = false;
         // Main Request Popup  Vars
         this.queueid = null;

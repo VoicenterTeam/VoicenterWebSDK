@@ -21,7 +21,8 @@ module.exports = class PopupApproveRequest extends Request {
         this.popupURL = null;
         this.Result = '';
         this.clearActionModule();
-        this.parseRequest();
+        this.clearActionModule();
+        this.requireActionModule();
     }
 
     async ParseJWTData() {
