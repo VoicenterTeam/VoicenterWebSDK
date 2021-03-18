@@ -81,16 +81,6 @@ module.exports = class PopupRequest extends Request{
             console.error("parseRequest failed ", err);
         }
     }
-
-    // Done() {
-    //     this.done = true;
-    //     this.reply.send(this.Result);
-    // }
-    
-    // async DoPopupLogic() {
-    //     await this.executeModule(this);
-    //     if (!this.done) this.Done();
-    // }
     
     ApprovePopup(approveUrlPath) {
         this.done = true;
