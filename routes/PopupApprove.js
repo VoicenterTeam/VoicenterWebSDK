@@ -11,7 +11,6 @@ async function popupApproveHandler(req, reply) {
     req.params.modulePath = replacer(req.params.modulePath);
     let popupApproveRequest = new PopupApproveRequest(req, reply);
     try {
-        // await popupApproveRequest.ParseRequest();
         popupApproveRequest.parseJWTData();
         await popupApproveRequest.execute();
     } catch (err) {
