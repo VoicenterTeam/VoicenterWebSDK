@@ -31,7 +31,7 @@ module.exports = class PopupRequest extends Request{
             this[classField] = null;
         });
         // Set up Response Data
-        this.Response = {
+        this.Result = {
             STATUS: "OK",
             URL: "",
             CLIENTNAME: "",
@@ -84,7 +84,7 @@ module.exports = class PopupRequest extends Request{
 
     // Done() {
     //     this.done = true;
-    //     this.reply.send(this.Response);
+    //     this.reply.send(this.Result);
     // }
     
     // async DoPopupLogic() {
@@ -97,9 +97,9 @@ module.exports = class PopupRequest extends Request{
         const protocol = this.request.protocol || 'http://';
         const host = this.request.hostname;
         const popupPath = this.request.raw.originalUrl.split('?')[0];
-        const query = { ...this, request: undefined, reply: undefined, Response: undefined, popupURL: protocol + host + popupPath };
-        this.Response["URL"] = protocol + host + '/PopupApprove/' + approveUrlPath + '?&data=' + jwt.sign(query, jwtKey);
-        this.reply.send(this.Response);
+        const query = { ...this, request: undefined, reply: undefined, Result: undefined, popupURL: protocol + host + popupPath };
+        this.Result["URL"] = protocol + host + '/PopupApprove/' + approveUrlPath + '?&data=' + jwt.sign(query, jwtKey);
+        this.reply.send(this.Result);
     }
     // Call Custom Param Functions  Start
     SetParam(parmName, paramValue) {

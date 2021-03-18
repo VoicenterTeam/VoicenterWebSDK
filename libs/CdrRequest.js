@@ -10,7 +10,7 @@ module.exports = class CdrRequest extends Request {
         this.done = false;
         this.IVR = [];
         this.CustomDataParmList = [];
-        this.Response = { "err": 0, "errdesc": "OK" };
+        this.Result = { "err": 0, "errdesc": "OK" };
         this.requestFields = new Map([
             ['caller', 'caller'],
             ['target', 'target'],
@@ -76,7 +76,7 @@ module.exports = class CdrRequest extends Request {
     
     // Done() {
     //     this.done = true;
-    //     this.reply.send(this.Response);
+    //     this.reply.send(this.Result);
     // }
 
     // async DoCdrLogic() {

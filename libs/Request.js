@@ -9,7 +9,7 @@ module.exports = class Request {
         this.reply = reply;
         this.executeModule = null;
         this.requestFields = new Map();
-        this.Response = null;
+        this.Result = null;
     }
 
     clearActionModule() {
@@ -39,7 +39,7 @@ module.exports = class Request {
 
     Done() {
         this.done = true;
-        this.reply.send(this.Response);
+        this.reply.send(this.Result);
     }
 
     async execute() {
