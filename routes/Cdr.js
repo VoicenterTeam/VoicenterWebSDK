@@ -12,8 +12,8 @@ async function cdrHandler(req, reply) {
     req.params.modulePath = replacer(req.params.modulePath);
     let cdrRequest = new CdrRequest(req, reply);
     try {
-        await cdrRequest.ParseRequest();
-        await cdrRequest.DoCdrLogic();
+        cdrRequest.parseRequest();
+        await cdrRequest.execute();
     } catch (err) {
         console.error("cdrHandler Global ERROR ", err)
     }

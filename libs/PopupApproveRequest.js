@@ -19,13 +19,13 @@ module.exports = class PopupApproveRequest extends Request {
     constructor(request, reply) {
         super(request, reply);
         this.popupURL = null;
-        this.Result = '';
+        this.Response = '';
         this.clearActionModule();
         this.clearActionModule();
         this.requireActionModule();
     }
 
-    async ParseJWTData() {
+    parseJWTData() {
         let jwtData = jwt.verify(this.request.query.data, jwtKey);
         Object.assign(this, jwtData);
     }
@@ -33,11 +33,11 @@ module.exports = class PopupApproveRequest extends Request {
     Done() {
         this.done = true;
         this.reply.type('text/html');
-        this.reply.send(this.Result);
+        this.reply.send(this.Response);
     }
 
-    async DoPopupApproveLogic() {
-        await this.modulePath(this);
+    async execute() {
+        await this.executeModule(this);
         if (!this.done) this.Done();
     }
 }

@@ -31,7 +31,7 @@ module.exports = class PopupRequest extends Request{
             this[classField] = null;
         });
         // Set up Response Data
-        this.Result = {
+        this.Response = {
             STATUS: "OK",
             URL: "",
             CLIENTNAME: "",
@@ -42,7 +42,8 @@ module.exports = class PopupRequest extends Request{
         this.clearActionModule();
         this.requireActionModule();
     }
-    async ParseRequest() {
+    
+    parseRequest() {
         try {
             if (this.request.body) {
                 this.requestFields.forEach((classField, bodyField) => {
@@ -80,23 +81,25 @@ module.exports = class PopupRequest extends Request{
             console.error("parseRequest failed ", err);
         }
     }
-    Done() {
-        this.done = true;
-        this.reply.send(this.Result);
-    }
-    async DoPopupLogic() {
-        await this.actionLogic(this);
-        if (!this.done) this.Done();
 
-    }
+    // Done() {
+    //     this.done = true;
+    //     this.reply.send(this.Response);
+    // }
+    
+    // async DoPopupLogic() {
+    //     await this.executeModule(this);
+    //     if (!this.done) this.Done();
+    // }
+    
     ApprovePopup(approveUrlPath) {
         this.done = true;
         const protocol = this.request.protocol || 'http://';
         const host = this.request.hostname;
         const popupPath = this.request.raw.originalUrl.split('?')[0];
-        const query = { ...this, request: undefined, reply: undefined, Result: undefined, popupURL: protocol + host + popupPath };
-        this.Result["URL"] = protocol + host + '/PopupApprove/' + approveUrlPath + '?&data=' + jwt.sign(query, jwtKey);
-        this.reply.send(this.Result);
+        const query = { ...this, request: undefined, reply: undefined, Response: undefined, popupURL: protocol + host + popupPath };
+        this.Response["URL"] = protocol + host + '/PopupApprove/' + approveUrlPath + '?&data=' + jwt.sign(query, jwtKey);
+        this.reply.send(this.Response);
     }
     // Call Custom Param Functions  Start
     SetParam(parmName, paramValue) {

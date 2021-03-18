@@ -13,8 +13,8 @@ async function popupHandler(req, reply) {
     req.params.modulePath = replacer(req.params.modulePath);
     let popupRequest = new PopupRequest(req, reply);
     try {
-        await popupRequest.ParseRequest();
-        await popupRequest.DoPopupLogic();
+        popupRequest.parseRequest();
+        await popupRequest.execute();
     } catch (err) {
         console.error("popupHandler Global ERROR ", err);
     }

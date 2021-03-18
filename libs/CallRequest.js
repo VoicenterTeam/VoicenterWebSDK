@@ -53,9 +53,16 @@ module.exports = class CallRequest extends Request {
             console.error("parseRequest failed ", err);
         }
     }
-    async DoCallLogic() {
-        await this.actionLogic(this);
-        if (!this.done) this.Execute();
+    
+    async execute() {
+        await this.executeModule(this);
+        if (!this.done) {
+            this.done = true
+            let responseObj = {};
+            responseObj = this.action.GetOutput();
+            responseObj.CUSTOM_DATA = this.OutputParam();
+            this.reply.send(responseObj);
+        }
 
     }
     async Do(nextLogic) {
@@ -75,13 +82,6 @@ module.exports = class CallRequest extends Request {
     }
     SetNextLayer(layerId) {
         this.ResponseData.NEXT_LAYER = layerId
-    }
-    async Execute() {
-        this.done = true
-        let responseObj = {}
-        responseObj = this.action.GetOutput();
-        responseObj.CUSTOM_DATA = this.OutputParam()
-        this.reply.send(responseObj)
     }
 
     // Load Action Into the class Start

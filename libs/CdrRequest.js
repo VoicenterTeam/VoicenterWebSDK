@@ -10,7 +10,7 @@ module.exports = class CdrRequest extends Request {
         this.done = false;
         this.IVR = [];
         this.CustomDataParmList = [];
-        this.ResponseOkData = { "err": 0, "errdesc": "OK" };
+        this.Response = { "err": 0, "errdesc": "OK" };
         this.requestFields = new Map([
             ['caller', 'caller'],
             ['target', 'target'],
@@ -40,7 +40,8 @@ module.exports = class CdrRequest extends Request {
         this.clearActionModule();
         this.requireActionModule();
     }
-    async ParseRequest() {
+    
+    parseRequest() {
         let self = this;
         try {
             if (this.request.body) {
@@ -72,14 +73,15 @@ module.exports = class CdrRequest extends Request {
             console.error("parseRequest failed ", err);
         }
     }
-    Done() {
-        this.done = true;
-        this.reply.send(this.ResponseOkData);
-    }
-    async DoCdrLogic() {
-        await this.actionLogic(this);
-        if (!this.done) this.Done();
+    
+    // Done() {
+    //     this.done = true;
+    //     this.reply.send(this.Response);
+    // }
 
-    }
+    // async DoCdrLogic() {
+    //     await this.executeModule(this);
+    //     if (!this.done) this.Done();
+    // }
 
 };

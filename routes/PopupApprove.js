@@ -12,8 +12,8 @@ async function popupApproveHandler(req, reply) {
     let popupApproveRequest = new PopupApproveRequest(req, reply);
     try {
         // await popupApproveRequest.ParseRequest();
-        await popupApproveRequest.ParseJWTData();
-        await popupApproveRequest.DoPopupApproveLogic();
+        popupApproveRequest.parseJWTData();
+        await popupApproveRequest.execute();
     } catch (err) {
         console.error("popupHandler Global ERROR ", err);
     }

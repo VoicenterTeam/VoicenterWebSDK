@@ -7,8 +7,9 @@ module.exports = class Request {
         this.modulePath = global.config.modulePath;
         this.request = request;
         this.reply = reply;
-        this.actionLogic = null;
+        this.executeModule = null;
         this.requestFields = new Map();
+        this.Response = null;
     }
 
     clearActionModule() {
@@ -23,7 +24,7 @@ module.exports = class Request {
 
     requireActionModule() {
         try {
-            this.actionLogic = require(path.join(this.modulePath, this.request.params.modulePath));
+            this.executeModule = require(path.join(this.modulePath, this.request.params.modulePath));
         } catch (err) {
             if (err.code === 'MODULE_NOT_FOUND') {
                 console.error("MODULE NOT FOUND " + this.request.params.modulePath, err);
@@ -34,6 +35,16 @@ module.exports = class Request {
 
             this.cdrLogic = require(this.defualtModulePath);
         }
+    }
+
+    Done() {
+        this.done = true;
+        this.reply.send(this.Response);
+    }
+
+    async execute() {
+        await this.executeModule(this);
+        if (!this.done) this.Done();
     }
 
 }
