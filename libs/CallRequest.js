@@ -51,12 +51,12 @@ module.exports = class CallRequest extends Request {
                 }
             }
         } catch (err) {
-            console.error("parseRequest failed ", err)
+            console.error("parseRequest failed ", err);
         }
     }
     async DoCallLogic() {
-        await this.actionLogic(this)
-        if (!this.done) this.Execute()
+        await this.actionLogic(this);
+        if (!this.done) this.Execute();
 
     }
     async Do(nextLogic) {

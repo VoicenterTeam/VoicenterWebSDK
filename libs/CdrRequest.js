@@ -72,8 +72,8 @@ module.exports = class CdrRequest extends Request {
                     })
                 }
             }
-        } catch (e) {
-            console.error("parseRequest failed ", e)
+        } catch (err) {
+            console.error("parseRequest failed ", err);
         }
     }
     Done() {
@@ -81,8 +81,8 @@ module.exports = class CdrRequest extends Request {
         this.reply.send(this.ResponseOkData);
     }
     async DoCdrLogic() {
-        await this.cdrLogic(this);
-        if (!this.done) this.Done()
+        await this.actionLogic(this);
+        if (!this.done) this.Done();
 
     }
 
