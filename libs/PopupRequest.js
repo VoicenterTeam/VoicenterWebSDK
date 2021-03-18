@@ -29,7 +29,7 @@ module.exports = class PopupRequest extends Request{
             ['statusCall', 'status'],
             ['approved', 'approved'],
         ]);
-        this.requestFields.forEach((bodyField, classField) => {
+        this.requestFields.forEach((classField, bodyField) => {
             this[classField] = null;
         });
         // Set up Response Data
@@ -47,7 +47,7 @@ module.exports = class PopupRequest extends Request{
     async ParseRequest() {
         try {
             if (this.request.body) {
-                this.requestFields.forEach((bodyField, classField) => {
+                this.requestFields.forEach((classField, bodyField) => {
                     this[classField] = this.request.body[bodyField] || null;
                 });
 
@@ -63,7 +63,7 @@ module.exports = class PopupRequest extends Request{
                 }
             }
             else if (this.request.query) {
-                this.requestFields.forEach((queryField, classField) => {
+                this.requestFields.forEach((classField, queryField) => {
                     this[classField] = this.request.query[queryField] || null;
                 });
 

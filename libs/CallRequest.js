@@ -23,7 +23,7 @@ module.exports = class CallRequest extends Request {
             ['LAYER_ID', 'LayerID'],
             ['PREVIOUS_LAYER_ID', 'PreviousLayerID'],
         ]);
-        this.requestFields.forEach((bodyField, classField) => {
+        this.requestFields.forEach((classField, bodyField) => {
             this[classField] = null;
         });
         // Load var From Request
@@ -35,7 +35,7 @@ module.exports = class CallRequest extends Request {
         let self = this;
         try {
             if (this.request.body.DATA) {
-                this.requestFields.forEach((bodyField, classField) => {
+                this.requestFields.forEach((classField, bodyField) => {
                     this[classField] = this.request.body.DATA[bodyField] || null;
                 });
 

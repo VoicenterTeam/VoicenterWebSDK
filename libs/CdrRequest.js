@@ -38,7 +38,7 @@ module.exports = class CdrRequest extends Request {
             ['target_country', 'target_country'],
             ['caller_country', 'caller_country'],
         ]);
-        this.requestFields.forEach((bodyField, classField) => {
+        this.requestFields.forEach((classField, bodyField) => {
             this[classField] = null;
         });
         this.clearActionModule();
@@ -48,7 +48,7 @@ module.exports = class CdrRequest extends Request {
         let self = this;
         try {
             if (this.request.body) {
-                this.requestFields.forEach((bodyField, classField) => {
+                this.requestFields.forEach((classField, bodyField) => {
                     this[classField] = this.request.body[bodyField] || null;
                 });
                 if (this.request.body.IVR) {
