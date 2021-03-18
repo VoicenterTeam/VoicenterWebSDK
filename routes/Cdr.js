@@ -8,17 +8,17 @@ module.exports = function (fastify, opts, done) {
     done()
 };
 
-async function cdrHandler  (req, reply) {
+async function cdrHandler(req, reply) {
     req.params.modulePath = replacer(req.params.modulePath);
     let cdrRequest = new CdrRequest(req, reply);
-    try{
+    try {
         await cdrRequest.ParseRequest();
         await cdrRequest.DoCdrLogic();
-    }catch (e) {
-        console.error("cdrHandler Global ERROR ",e)
+    } catch (err) {
+        console.error("cdrHandler Global ERROR ", err)
     }
     // await  callRequest.Execute()
-  //  reply.send({hello:"word"})
+    //  reply.send({hello:"word"})
 
 }
 
