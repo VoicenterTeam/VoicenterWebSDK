@@ -1,7 +1,7 @@
 // let cdrLogicFolder = __dirname+"/../../../";
 // if(global.config.cdrLogicFolder)cdrLogicFolder= __dirname+"/../../../"+global.config.cdrLogicFolder;
 // let cdrLogicFolder = global.config.cdrLogicFolder ? global.config.modulesPath + global.config.cdrLogicFolder : global.config.modulesPath;
-console.log("Loading CallRequest Class , Call Logic folder is :", cdrLogicFolder);
+// console.log("Loading CallRequest Class , Call Logic folder is :", cdrLogicFolder);
 const clear = require("clear-module");
 const CallCustomParam = require("../libs/ivrAction/callParam");
 
