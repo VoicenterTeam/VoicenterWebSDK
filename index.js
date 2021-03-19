@@ -1,4 +1,4 @@
-global.config = {};
+global.config = {}; //TODO
 const fastify = require('fastify')({ logger: true });
 const path = require('path');
 

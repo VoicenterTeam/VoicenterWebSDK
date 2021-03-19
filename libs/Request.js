@@ -10,6 +10,7 @@ module.exports = class Request {
     this.executeModule = null;
     this.requestFields = new Map();
     this.Result = null;
+    this.CustomDataParmList = [];
   }
 
   clearActionModule() {
@@ -41,6 +42,19 @@ module.exports = class Request {
     this.requestFields.forEach((classField, requestField) => {
       this[classField] = placeToParse[requestField] || null;
     });
+  }
+
+  parseCustomData(customData) {
+    let self = this;
+    if (customData && customData.constructor.name == "Object") {
+      Object.keys(customData).forEach(function (varName) {
+        try {
+          self.CustomDataParmList.push(new CallCustomParam(varName, customData[varName], false))
+        } catch (err) {
+          console.error("Failed adding CUSTOM_DATA parameter ", varName)
+        }
+      })
+    }
   }
 
   Done() {

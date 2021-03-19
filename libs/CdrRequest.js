@@ -9,7 +9,6 @@ module.exports = class CdrRequest extends Request {
     if (global.config.cdrLogicFolder) this.modulePath = global.config.cdrLogicFolder;
     this.done = false;
     this.IVR = [];
-    this.CustomDataParmList = [];
     this.Result = { "err": 0, "errdesc": "OK" };
     this.requestFields = new Map([
       ['caller', 'caller'],
@@ -57,30 +56,10 @@ module.exports = class CdrRequest extends Request {
           }
         }
 
-        //Parsing CUSTOM_DATA
-        if (this.request.body.CUSTOM_DATA && this.request.body.CUSTOM_DATA.constructor.name === "Object") {
-          Object.keys(this.request.body.DATA.CUSTOM_DATA).forEach(function (varName) {
-            try {
-              self.CustomDataParmList.push(new CallCustomParam(varName, self.request.body.DATA.CUSTOM_DATA[varName], false));
-            } catch (e) {
-              console.error("Failed adding CUSTOM_DATA parameter ", varName);
-            }
-          })
-        }
+        this.parseCustomData(this.request.body.CUSTOM_DATA);
       }
     } catch (err) {
       console.error("parseRequest failed ", err);
     }
   }
-
-  // Done() {
-  //     this.done = true;
-  //     this.reply.send(this.Result);
-  // }
-
-  // async DoCdrLogic() {
-  //     await this.executeModule(this);
-  //     if (!this.done) this.Done();
-  // }
-
 }

@@ -38,7 +38,6 @@ module.exports = class PopupRequest extends Request {
       TOTAL: 0,
       COMPANY: "",
     };
-    this.CustomDataParmList = [];
     this.clearActionModule();
     this.requireActionModule();
   }
@@ -47,30 +46,10 @@ module.exports = class PopupRequest extends Request {
     try {
       if (this.request.body) {
         this.parseRequestToObject(this.request.body);
-
-        //Parsing CUSTOM_DATA
-        if (this.request.body.CUSTOM_DATA && this.request.body.CUSTOM_DATA.constructor.name === "Object") {
-          Object.keys(this.request.body.DATA.CUSTOM_DATA).forEach(function (varName) {
-            try {
-              that.CustomDataParmList.push(new CallCustomParam(varName, that.request.body.DATA.CUSTOM_DATA[varName], false));
-            } catch (e) {
-              console.error("Failed adding CUSTOM_DATA parameter ", varName);
-            }
-          })
-        }
+        this.parseCustomData(this.request.body.CUSTOM_DATA);
       } else if (this.request.query) {
         this.parseRequestToObject(this.request.query);
-
-        //Parsing CUSTOM_DATA
-        if (this.request.query.CUSTOM_DATA && this.request.query.CUSTOM_DATA.constructor.name === "Object") {
-          Object.keys(this.request.query.DATA.CUSTOM_DATA).forEach(function (varName) {
-            try {
-              that.CustomDataParmList.push(new CallCustomParam(varName, that.request.query.DATA.CUSTOM_DATA[varName], false));
-            } catch (e) {
-              console.error("Failed adding CUSTOM_DATA parameter ", varName);
-            }
-          })
-        }
+        this.parseCustomData(this.request.query.CUSTOM_DATA);
       }
     } catch (err) {
       console.error("parseRequest failed ", err);

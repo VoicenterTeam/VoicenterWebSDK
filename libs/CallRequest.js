@@ -12,7 +12,6 @@ module.exports = class CallRequest extends Request {
     super(request, reply);
     if (global.config.callLogicFolder) this.modulePath = global.config.callLogicFolder;
     this.clearActionModule();
-    this.CustomDataParmList = [];
     // Fill fields map
     this.requestFields = new Map([
       ['DID', 'Did'],
@@ -31,21 +30,10 @@ module.exports = class CallRequest extends Request {
   }
 
   parseRequest() {
-    let self = this;
     try {
       if (this.request.body.DATA) {
         this.parseRequestToObject(this.request.body.DATA);
-
-        //Parsing CUSTOM_DATA
-        if (this.request.body.DATA.CUSTOM_DATA && this.request.body.DATA.CUSTOM_DATA.constructor.name == "Object") {
-          Object.keys(this.request.body.DATA.CUSTOM_DATA).forEach(function (varName) {
-            try {
-              self.CustomDataParmList.push(new CallCustomParam(varName, self.request.body.DATA.CUSTOM_DATA[varName], false))
-            } catch (err) {
-              console.error("Failed adding CUSTOM_DATA parameter ", varName)
-            }
-          })
-        }
+        this.parseCustomData(this.request.body.DATA.CUSTOM_DATA);
       }
     } catch (err) {
       console.error("parseRequest failed ", err);
