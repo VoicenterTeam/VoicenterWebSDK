@@ -3,21 +3,15 @@ const fastify = require('fastify')({ logger: true });
 const path = require('path');
 
 module.exports = class VoicenterWebSDK {
-  constructor(options) {
+  constructor(options = {}) {
     this.options = options;
 
     this.config = {};
-    this.config.port = 3000;
-    this.config.host = '0.0.0.0';
-    this.config.callLogicFolder = null;
+    this.config.port = options.port || 3000;
+    this.config.host = options.host || '0.0.0.0';
+    this.config.callLogicFolder = options.callLogicFolder || null;
     this.fastify = fastify;
-    this.config.modulePath = path.join(__dirname + "/../../");
-    if (options) {
-      if (options.port) this.config.port = options.port;
-      if (options.host) this.config.host = options.host;
-      if (options.modulePath) this.config.modulePath = options.modulePath;
-      if (options.callLogicFolder) this.config.callLogicFolder = options.callLogicFolder;
-    }
+    this.config.modulePath = options.modulePath || path.join(__dirname + "/../../");
     global.config = this.config
 
   }
