@@ -45,9 +45,8 @@ module.exports = class CdrRequest extends Request {
         let self = this;
         try {
             if (this.request.body) {
-                this.requestFields.forEach((classField, bodyField) => {
-                    this[classField] = this.request.body[bodyField] || null;
-                });
+                this.parseRequestToObject(this.request.body);
+                
                 if (this.request.body.IVR) {
                     try {
                         let ivrArray = JSON.parse(this.request.body.IVR);

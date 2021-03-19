@@ -1,8 +1,6 @@
 const PopupRequest = require("../libs/PopupRequest");
 const replacer = require('../libs/callLogicParamsFormater');
 
-
-
 module.exports = function (fastify, opts, done) {
     fastify.get('/:modulePath', popupHandler);
     fastify.post('/:modulePath', popupHandler);

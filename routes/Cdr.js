@@ -1,6 +1,5 @@
 const CdrRequest = require("../libs/CdrRequest");
-const replacer = require('../libs/callLogicParamsFormater')
-
+const replacer = require('../libs/callLogicParamsFormater');
 
 module.exports = function (fastify, opts, done) {
     fastify.get('/:modulePath', cdrHandler);

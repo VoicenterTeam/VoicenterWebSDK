@@ -13,7 +13,7 @@ try {
 
 const jwtKey = keyConfig.jwtKey;
 
-module.exports = class PopupRequest extends Request{
+module.exports = class PopupRequest extends Request {
     constructor(request, reply) {
         super(request, reply);
         this.done = false;
@@ -42,13 +42,11 @@ module.exports = class PopupRequest extends Request{
         this.clearActionModule();
         this.requireActionModule();
     }
-    
+
     parseRequest() {
         try {
             if (this.request.body) {
-                this.requestFields.forEach((classField, bodyField) => {
-                    this[classField] = this.request.body[bodyField] || null;
-                });
+                this.parseRequestToObject(this.request.body);
 
                 //Parsing CUSTOM_DATA
                 if (this.request.body.CUSTOM_DATA && this.request.body.CUSTOM_DATA.constructor.name === "Object") {
@@ -60,11 +58,8 @@ module.exports = class PopupRequest extends Request{
                         }
                     })
                 }
-            }
-            else if (this.request.query) {
-                this.requestFields.forEach((classField, queryField) => {
-                    this[classField] = this.request.query[queryField] || null;
-                });
+            } else if (this.request.query) {
+                this.parseRequestToObject(this.request.query);
 
                 //Parsing CUSTOM_DATA
                 if (this.request.query.CUSTOM_DATA && this.request.query.CUSTOM_DATA.constructor.name === "Object") {
@@ -81,7 +76,7 @@ module.exports = class PopupRequest extends Request{
             console.error("parseRequest failed ", err);
         }
     }
-    
+
     ApprovePopup(approveUrlPath) {
         this.done = true;
         const protocol = this.request.protocol || 'http://';

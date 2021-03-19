@@ -34,9 +34,7 @@ module.exports = class CallRequest extends Request {
         let self = this;
         try {
             if (this.request.body.DATA) {
-                this.requestFields.forEach((classField, bodyField) => {
-                    this[classField] = this.request.body.DATA[bodyField] || null;
-                });
+                this.parseRequestToObject(this.request.body.DATA);
 
                 //Parsing CUSTOM_DATA
                 if (this.request.body.DATA.CUSTOM_DATA && this.request.body.DATA.CUSTOM_DATA.constructor.name == "Object") {
@@ -111,8 +109,6 @@ module.exports = class CallRequest extends Request {
         } else {
             this.CustomDataParmList.push(new CallCustomParam(parmName, paramValue, true))
         }
-
-
     }
 
     GetParam(parmName) {

@@ -37,6 +37,12 @@ module.exports = class Request {
         }
     }
 
+    parseRequestToObject(placeToParse) {
+        this.requestFields.forEach((classField, requestField) => {
+            this[classField] = placeToParse[requestField] || null;
+        });
+    }
+
     Done() {
         this.done = true;
         this.reply.send(this.Result);
