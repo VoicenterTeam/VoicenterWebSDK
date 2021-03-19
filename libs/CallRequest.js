@@ -11,7 +11,7 @@ module.exports = class CallRequest extends Request {
     super(request, reply);
 
     if (global.config.callLogicFolder) this.modulePath = global.config.callLogicFolder;
-    
+
     this.clearActionModule();
     this.requestFields = new Map([
       ['DID', 'Did'],
@@ -24,6 +24,7 @@ module.exports = class CallRequest extends Request {
     this.requestFields.forEach((classField, bodyField) => {
       this[classField] = null;
     });
+    
     // Load var From Request
     this.requireActionModule();
     this.parseRequest();

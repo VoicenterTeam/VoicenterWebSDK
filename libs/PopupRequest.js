@@ -17,7 +17,7 @@ module.exports = class PopupRequest extends Request {
     super(request, reply);
 
     if (global.config.popupLogicFolder) this.modulePath = global.config.popupLogicFolder;
-    
+
     this.done = false;
     // Main Request Popup  Vars
     this.queueid = null;
@@ -32,6 +32,7 @@ module.exports = class PopupRequest extends Request {
     this.requestFields.forEach((classField, bodyField) => {
       this[classField] = null;
     });
+    
     // Set up Response Data
     this.Result = {
       STATUS: "OK",
