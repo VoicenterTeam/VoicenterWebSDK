@@ -12,7 +12,6 @@ module.exports = class CallRequest extends Request {
     super(request, reply);
     if (global.config.callLogicFolder) this.modulePath = global.config.callLogicFolder;
     this.clearActionModule();
-    // Fill fields map
     this.requestFields = new Map([
       ['DID', 'Did'],
       ['CALLER_ID', 'CallerID'],

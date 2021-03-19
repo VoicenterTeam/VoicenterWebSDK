@@ -41,7 +41,6 @@ module.exports = class CdrRequest extends Request {
   }
 
   parseRequest() {
-    let self = this;
     try {
       if (this.request.body) {
         this.parseRequestToObject(this.request.body);
