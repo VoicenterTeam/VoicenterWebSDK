@@ -60,6 +60,7 @@ module.exports = class Request {
 
   Done() {
     this.done = true;
+    
     this.reply.type(this.responseContentType);
     this.reply.send(this.Result);
   }
