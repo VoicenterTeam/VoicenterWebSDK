@@ -1,4 +1,3 @@
-const clear = require("clear-module");
 const CallCustomParam = require("../libs/ivrAction/callParam");
 
 const Request = require('./Request');

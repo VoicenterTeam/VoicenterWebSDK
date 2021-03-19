@@ -1,4 +1,3 @@
-const clear = require("clear-module");
 const CallCustomParam = require("../libs/ivrAction/callParam");
 const Request = require("./Request");
 const jwt = require("jsonwebtoken");
@@ -18,7 +17,6 @@ module.exports = class PopupApproveRequest extends Request {
     if (global.config.popupLogicFolder) this.modulePath = global.config.popupLogicFolder;
     this.popupURL = null;
     this.Result = '';
-    this.clearActionModule();
     this.clearActionModule();
     this.requireActionModule();
   }
