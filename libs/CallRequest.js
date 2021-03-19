@@ -41,11 +41,15 @@ module.exports = class CallRequest extends Request {
 
   async execute() {
     await this.executeModule(this);
+    
     if (!this.done) {
-      this.done = true
+      this.done = true;
+
       let responseObj = {};
+
       responseObj = this.action.GetOutput();
       responseObj.CUSTOM_DATA = this.OutputParam();
+
       this.reply.send(responseObj);
     }
 
