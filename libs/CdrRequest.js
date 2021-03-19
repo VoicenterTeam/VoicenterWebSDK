@@ -50,8 +50,12 @@ module.exports = class CdrRequest extends Request {
 
         if (this.request.body.IVR) {
           try {
-            let ivrArray = JSON.parse(this.request.body.IVR);
-            if (ivrArray.constructor.name === "Array") this.IVR = ivrArray;
+            if (typeof(this.request.body.IVR) === 'string') {
+              let ivrArray = JSON.parse(this.request.body.IVR);
+              if (ivrArray.constructor.name === "Array") this.IVR = ivrArray;
+            } else if(Array.isArray(this.request.body.IVR)) {
+              this.IVR = this.request.body.IVR;
+            }            
           } catch (e) {
             console.error("Failed parse IVR list of cdr ", e);
             console.error("IVR list", this.request.body.IVR);
