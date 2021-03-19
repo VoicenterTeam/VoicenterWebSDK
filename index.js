@@ -12,8 +12,7 @@ module.exports = class VoicenterWebSDK {
     this.config.callLogicFolder = options.callLogicFolder || null;
     this.fastify = fastify;
     this.config.modulePath = options.modulePath || path.join(__dirname + "/../../");
-    global.config = this.config
-
+    global.config = this.config;
   }
 
   async start() {
@@ -27,7 +26,7 @@ module.exports = class VoicenterWebSDK {
       fastify.log.info(`server listening on ${fastify.server.address().port}`)
     } catch (err) {
       this.fastify.log.error(err);
-      process.exit(1)
+      process.exit(1);
     }
   }
 };
