@@ -57,7 +57,7 @@ module.exports = class CdrRequest extends Request {
 
         this.parseCustomData(this.request.body.CUSTOM_DATA);
       }
-    } catch (err) {
+    } catch(err) {
       console.error("parseRequest failed ", err);
     }
   }

@@ -7,7 +7,7 @@ const Request = require('./Request');
 let keyConfig = {};
 try {
   keyConfig = require(global.config.modulePath + '/' + 'keyConfig');
-} catch (err) {
+} catch(err) {
   console.log(err);
 }
 
@@ -52,7 +52,7 @@ module.exports = class PopupRequest extends Request {
         this.parseRequestToObject(this.request.query);
         this.parseCustomData(this.request.query.CUSTOM_DATA);
       }
-    } catch (err) {
+    } catch(err) {
       console.error("parseRequest failed ", err);
     }
   }

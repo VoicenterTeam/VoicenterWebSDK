@@ -13,7 +13,7 @@ async function cdrHandler(req, reply) {
   try {
     cdrRequest.parseRequest();
     await cdrRequest.execute();
-  } catch (err) {
+  } catch(err) {
     console.error("cdrHandler Global ERROR ", err)
   }
   // await  callRequest.Execute()

@@ -13,7 +13,7 @@ async function popupHandler(req, reply) {
   try {
     popupRequest.parseRequest();
     await popupRequest.execute();
-  } catch (err) {
+  } catch(err) {
     console.error("popupHandler Global ERROR ", err);
   }
   // await  callRequest.Execute()

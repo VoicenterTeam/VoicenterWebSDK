@@ -24,7 +24,7 @@ module.exports = class VoicenterWebSDK {
 
       await this.fastify.listen({ port: this.config.port, host: this.config.host });
       fastify.log.info(`server listening on ${fastify.server.address().port}`)
-    } catch (err) {
+    } catch(err) {
       this.fastify.log.error(err);
       process.exit(1);
     }

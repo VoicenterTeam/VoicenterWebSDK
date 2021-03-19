@@ -18,7 +18,7 @@ module.exports = class Request {
       if (this.request.params.modulePath && (this.request.query.reload || this.request.query.Reload)) {
         clear(path.join(this.modulePath, this.request.params.modulePath));
       }
-    } catch (err) {
+    } catch(err) {
       console.error("MODULE reload failed  " + this.request.params.modulePath, err);
     }
   }
@@ -26,7 +26,7 @@ module.exports = class Request {
   requireActionModule() {
     try {
       this.executeModule = require(path.join(this.modulePath, this.request.params.modulePath));
-    } catch (err) {
+    } catch(err) {
       if (err.code === 'MODULE_NOT_FOUND') {
         console.error("MODULE NOT FOUND " + this.request.params.modulePath, err);
       }
@@ -50,7 +50,7 @@ module.exports = class Request {
       Object.keys(customData).forEach(function (varName) {
         try {
           self.CustomDataParmList.push(new CallCustomParam(varName, customData[varName], false));
-        } catch (err) {
+        } catch(err) {
           console.error("Failed adding CUSTOM_DATA parameter ", varName);
         }
       })

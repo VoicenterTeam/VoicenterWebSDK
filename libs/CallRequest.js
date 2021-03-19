@@ -34,14 +34,14 @@ module.exports = class CallRequest extends Request {
         this.parseRequestToObject(this.request.body.DATA);
         this.parseCustomData(this.request.body.DATA.CUSTOM_DATA);
       }
-    } catch (err) {
+    } catch(err) {
       console.error("parseRequest failed ", err);
     }
   }
 
   async execute() {
     await this.executeModule(this);
-    
+
     if (!this.done) {
       this.done = true;
 
@@ -63,12 +63,10 @@ module.exports = class CallRequest extends Request {
         let nextLogicFuncaion = require(this.modulePath + '/' + nextLogic);
         nextLogicFuncaion(this)
       }
-      catch (err) {
+      catch(err) {
         console.error("Failed to Do Logic " + nextLogic, err)
       }
     }
-
-
   }
 
   SetNextLayer(layerId) {
@@ -107,7 +105,7 @@ module.exports = class CallRequest extends Request {
     try {
       let params = this.CustomDataParmList.filter(function (p) { return p.Name == parmName });
       parmVal = params[0].Value
-    } catch (err) {
+    } catch(err) {
       console.error("Failed to get parameter value for :" + parmName, err)
     }
     return parmVal;

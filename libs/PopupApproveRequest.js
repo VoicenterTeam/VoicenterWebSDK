@@ -6,7 +6,7 @@ const jwt = require("jsonwebtoken");
 let keyConfig = {};
 try {
   keyConfig = require(global.config.modulePath + '/' + 'keyConfig');
-} catch (err) {
+} catch(err) {
   console.log(err);
 }
 

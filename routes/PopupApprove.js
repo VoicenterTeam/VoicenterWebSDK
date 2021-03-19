@@ -13,7 +13,7 @@ async function popupApproveHandler(req, reply) {
   try {
     popupApproveRequest.parseJWTData();
     await popupApproveRequest.execute();
-  } catch (err) {
+  } catch(err) {
     console.error("popupHandler Global ERROR ", err);
   }
   // await  callRequest.Execute()
