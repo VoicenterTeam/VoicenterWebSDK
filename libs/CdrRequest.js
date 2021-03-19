@@ -40,13 +40,13 @@ module.exports = class CdrRequest extends Request {
         this.clearActionModule();
         this.requireActionModule();
     }
-    
+
     parseRequest() {
         let self = this;
         try {
             if (this.request.body) {
                 this.parseRequestToObject(this.request.body);
-                
+
                 if (this.request.body.IVR) {
                     try {
                         let ivrArray = JSON.parse(this.request.body.IVR);
@@ -72,7 +72,7 @@ module.exports = class CdrRequest extends Request {
             console.error("parseRequest failed ", err);
         }
     }
-    
+
     // Done() {
     //     this.done = true;
     //     this.reply.send(this.Result);

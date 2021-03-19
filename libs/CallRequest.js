@@ -63,7 +63,7 @@ module.exports = class CallRequest extends Request {
         }
 
     }
-    
+
     async Do(nextLogic) {
         if (nextLogic.constructor.name == "Function") {
             await nextLogic(this)
