@@ -1,11 +1,11 @@
 const clear = require("clear-module");
 const Request = require('./Request');
 
-const CallCustomParam = require("../libs/ivrAction/callParam")
+const CallCustomParam = require("../libs/ivrAction/callParam");
 //Load Call Action
-const Say = require("../libs/ivrAction/say")
-const GoToLayer = require("../libs/ivrAction/goToLayer")
-const Dial = require("../libs/ivrAction/dial")
+const Say = require("../libs/ivrAction/say");
+const GoToLayer = require("../libs/ivrAction/goToLayer");
+const Dial = require("../libs/ivrAction/dial");
 
 module.exports = class CallRequest extends Request {
   constructor(request, reply) {

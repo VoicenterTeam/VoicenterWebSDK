@@ -1,6 +1,3 @@
-let popupLogicFolder = __dirname + "/../../../";
-if (global.config.popupLogicFolder) popupLogicFolder = __dirname + "/../../../" + global.config.popupLogicFolder;
-console.log("Loading PopupRequest Class , popup Logic folder is :", popupLogicFolder);
 const clear = require("clear-module");
 const CallCustomParam = require("../libs/ivrAction/callParam");
 const Request = require("./Request");
@@ -18,6 +15,7 @@ const jwtKey = keyConfig.jwtKey;
 module.exports = class PopupApproveRequest extends Request {
   constructor(request, reply) {
     super(request, reply);
+    if (global.config.popupLogicFolder) this.modulePath = global.config.popupLogicFolder;
     this.popupURL = null;
     this.Result = '';
     this.clearActionModule();

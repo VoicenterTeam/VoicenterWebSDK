@@ -49,9 +49,9 @@ module.exports = class Request {
     if (customData && customData.constructor.name == "Object") {
       Object.keys(customData).forEach(function (varName) {
         try {
-          self.CustomDataParmList.push(new CallCustomParam(varName, customData[varName], false))
+          self.CustomDataParmList.push(new CallCustomParam(varName, customData[varName], false));
         } catch (err) {
-          console.error("Failed adding CUSTOM_DATA parameter ", varName)
+          console.error("Failed adding CUSTOM_DATA parameter ", varName);
         }
       })
     }
