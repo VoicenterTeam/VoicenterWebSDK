@@ -9,7 +9,9 @@ const Dial = require("../libs/ivrAction/dial");
 module.exports = class CallRequest extends Request {
   constructor(request, reply) {
     super(request, reply);
+
     if (global.config.callLogicFolder) this.modulePath = global.config.callLogicFolder;
+    
     this.clearActionModule();
     this.requestFields = new Map([
       ['DID', 'Did'],

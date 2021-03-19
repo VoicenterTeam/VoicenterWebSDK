@@ -5,7 +5,9 @@ const Request = require('./Request');
 module.exports = class CdrRequest extends Request {
   constructor(request, reply) {
     super(request, reply);
+
     if (global.config.cdrLogicFolder) this.modulePath = global.config.cdrLogicFolder;
+    
     this.done = false;
     this.IVR = [];
     this.Result = { "err": 0, "errdesc": "OK" };

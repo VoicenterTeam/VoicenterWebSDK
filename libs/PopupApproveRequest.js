@@ -14,7 +14,9 @@ const jwtKey = keyConfig.jwtKey;
 module.exports = class PopupApproveRequest extends Request {
   constructor(request, reply) {
     super(request, reply);
+
     if (global.config.popupLogicFolder) this.modulePath = global.config.popupLogicFolder;
+    
     this.popupURL = null;
     this.Result = '';
     this.clearActionModule();
