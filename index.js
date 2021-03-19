@@ -10,8 +10,10 @@ module.exports = class VoicenterWebSDK {
     this.config.port = options.port || 3000;
     this.config.host = options.host || '0.0.0.0';
     this.config.callLogicFolder = options.callLogicFolder || null;
-    this.fastify = fastify;
     this.config.modulePath = options.modulePath || path.join(__dirname + "/../../");
+
+    this.fastify = fastify;
+
     global.config = this.config;
   }
 
@@ -23,9 +25,11 @@ module.exports = class VoicenterWebSDK {
       this.fastify.register(require('./routes/PopupApprove'), { prefix: '/PopupApprove' });
 
       await this.fastify.listen({ port: this.config.port, host: this.config.host });
-      fastify.log.info(`server listening on ${fastify.server.address().port}`)
-    } catch(err) {
+
+      fastify.log.info(`server listening on ${fastify.server.address().port}`);
+    } catch (err) {
       this.fastify.log.error(err);
+
       process.exit(1);
     }
   }

@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 let keyConfig = {};
 try {
   keyConfig = require(global.config.modulePath + '/' + 'keyConfig');
-} catch(err) {
+} catch (err) {
   console.log(err);
 }
 
@@ -16,10 +16,11 @@ module.exports = class PopupApproveRequest extends Request {
     super(request, reply);
 
     if (global.config.popupLogicFolder) this.modulePath = global.config.popupLogicFolder;
-    
+
     this.popupURL = null;
     this.Result = '';
     this.responseContentType = 'text/html';
+
     this.clearActionModule();
     this.requireActionModule();
   }

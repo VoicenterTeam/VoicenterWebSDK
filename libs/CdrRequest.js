@@ -34,10 +34,11 @@ module.exports = class CdrRequest extends Request {
       ['target_country', 'target_country'],
       ['caller_country', 'caller_country'],
     ]);
+
     this.requestFields.forEach((classField, bodyField) => {
       this[classField] = null;
     });
-    
+
     this.clearActionModule();
     this.requireActionModule();
   }
@@ -59,7 +60,7 @@ module.exports = class CdrRequest extends Request {
 
         this.parseCustomData(this.request.body.CUSTOM_DATA);
       }
-    } catch(err) {
+    } catch (err) {
       console.error("parseRequest failed ", err);
     }
   }

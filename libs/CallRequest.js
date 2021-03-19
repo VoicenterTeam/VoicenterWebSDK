@@ -24,7 +24,7 @@ module.exports = class CallRequest extends Request {
     this.requestFields.forEach((classField, bodyField) => {
       this[classField] = null;
     });
-    
+
     // Load var From Request
     this.requireActionModule();
     this.parseRequest();
@@ -36,7 +36,7 @@ module.exports = class CallRequest extends Request {
         this.parseRequestToObject(this.request.body.DATA);
         this.parseCustomData(this.request.body.DATA.CUSTOM_DATA);
       }
-    } catch(err) {
+    } catch (err) {
       console.error("parseRequest failed ", err);
     }
   }
@@ -63,9 +63,9 @@ module.exports = class CallRequest extends Request {
     } else if (nextLogic.constructor.name == "String") {
       try {
         let nextLogicFuncaion = require(this.modulePath + '/' + nextLogic);
-        nextLogicFuncaion(this)
-      }
-      catch(err) {
+
+        nextLogicFuncaion(this);
+      } catch (err) {
         console.error("Failed to Do Logic " + nextLogic, err)
       }
     }
@@ -93,6 +93,7 @@ module.exports = class CallRequest extends Request {
   // Call Custom Param Functions  Start
   SetParam(parmName, paramValue) {
     let params = this.CustomDataParmList.filter(function (p) { return p.Name == parmName });
+
     if (params.length > 0) {
       params.forEach(function (param) {
         param.Update(paramValue)
@@ -103,22 +104,20 @@ module.exports = class CallRequest extends Request {
   }
 
   GetParam(parmName) {
-    let parmVal = ""
-    try {
-      let params = this.CustomDataParmList.filter(function (p) { return p.Name == parmName });
-      parmVal = params[0].Value
-    } catch(err) {
-      console.error("Failed to get parameter value for :" + parmName, err)
-    }
-    return parmVal;
+    // let params = this.CustomDataParmList.filter((param) => param.Name == parmName);
+    let param = this.CustomDataParmList.find((param) => param.Name == parmName);
+
+    return param ? param.Value : '';
   }
 
   OutputParam() {
     let parmsOutput = {}
-    let params = this.CustomDataParmList.filter(function (p) { return p.IsUpdated });
+
+    let params = this.CustomDataParmList.filter((param) => param.IsUpdated);
+
     params.forEach(function (param) {
-      parmsOutput[param.Name] = param.Value
-    })
+      parmsOutput[param.Name] = param.Value;
+    });
 
     return parmsOutput
   }

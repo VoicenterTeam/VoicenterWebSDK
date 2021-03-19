@@ -6,7 +6,7 @@ const Request = require('./Request');
 let keyConfig = {};
 try {
   keyConfig = require(global.config.modulePath + '/' + 'keyConfig');
-} catch(err) {
+} catch (err) {
   console.log(err);
 }
 
@@ -29,10 +29,11 @@ module.exports = class PopupRequest extends Request {
       ['statusCall', 'status'],
       ['approved', 'approved'],
     ]);
+
     this.requestFields.forEach((classField, bodyField) => {
       this[classField] = null;
     });
-    
+
     // Set up Response Data
     this.Result = {
       STATUS: "OK",
@@ -41,6 +42,7 @@ module.exports = class PopupRequest extends Request {
       TOTAL: 0,
       COMPANY: "",
     };
+
     this.clearActionModule();
     this.requireActionModule();
   }
@@ -54,18 +56,21 @@ module.exports = class PopupRequest extends Request {
         this.parseRequestToObject(this.request.query);
         this.parseCustomData(this.request.query.CUSTOM_DATA);
       }
-    } catch(err) {
+    } catch (err) {
       console.error("parseRequest failed ", err);
     }
   }
 
   ApprovePopup(approveUrlPath) {
     this.done = true;
+    
     const protocol = this.request.protocol || 'http://';
     const host = this.request.hostname;
     const popupPath = this.request.raw.originalUrl.split('?')[0];
     const query = { ...this, request: undefined, reply: undefined, Result: undefined, popupURL: protocol + host + popupPath };
+    
     this.Result["URL"] = protocol + host + '/PopupApprove/' + approveUrlPath + '?&data=' + jwt.sign(query, jwtKey);
+    
     this.reply.send(this.Result);
   }
   // Call Custom Param Functions  Start

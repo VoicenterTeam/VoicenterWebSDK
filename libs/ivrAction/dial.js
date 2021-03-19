@@ -19,7 +19,7 @@ module.exports = class DialAction {
     this.output.MAX_CALL_DURATION = dialOptions.Duration;
     this.output.MAX_DIAL_DURATION = dialOptions.Ring;
 
-    let that = this;
+    let self = this;
     //Target Parse
     if (target.constructor.name === "Object" || target.constructor.name === "String") {
       let targetObj = new DialTarget(target);
@@ -27,7 +27,7 @@ module.exports = class DialAction {
     } else if (target.constructor.name === "Array") {
       target.forEach(function (targetData) {
         let targetObj = new DialTarget(targetData);
-        if (targetObj.TARGET.length > 0) that.output.TARGETS.push(targetObj)
+        if (targetObj.TARGET.length > 0) self.output.TARGETS.push(targetObj)
       })
     }
     //DialOptions Parse

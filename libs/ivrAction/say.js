@@ -11,6 +11,7 @@ module.exports = class SayAction {
       "DATA": []
     }
     this.SayList = []
+    
     if (sayData && sayData.sayData) {
       if (sayData.NextLayer) {
         this.output.NEXT_LAYER = sayData.NextLayer
@@ -21,6 +22,7 @@ module.exports = class SayAction {
       sayData = sayData.sayData;
     }
     let that = this
+    
     if (sayData && sayData.constructor.name == "Array") {
       sayData.forEach(function (sayAction) {
 
@@ -35,7 +37,9 @@ module.exports = class SayAction {
       that.AddSayAction({ RecordType: "Number", Content: sayData })
 
     }
+    
     if (nextLayer && nextLayer.constructor.name === "Number") this.output.NEXT_LAYER = nextLayer
+    
     if (language && language.constructor.name === "String") this.output.LANGUAGE = language
 
 
