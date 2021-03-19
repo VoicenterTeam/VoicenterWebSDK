@@ -20,4 +20,3 @@ async function cdrHandler(req, reply) {
   //  reply.send({hello:"word"})
 
 }
-

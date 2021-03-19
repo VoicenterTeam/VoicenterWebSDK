@@ -29,4 +29,4 @@ module.exports = class VoicenterWebSDK {
       process.exit(1);
     }
   }
-};
+}

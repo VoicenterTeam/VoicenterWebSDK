@@ -34,6 +34,4 @@ module.exports = class CallCustomParam {
     this.SetParamValue(val)
     this.IsUpdated = true
   }
-
-
 }

@@ -99,4 +99,4 @@ module.exports = class PopupRequest extends Request {
 
   }
   // Call Custom Param Functions  End
-};
+}

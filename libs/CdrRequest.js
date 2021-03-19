@@ -83,4 +83,4 @@ module.exports = class CdrRequest extends Request {
   //     if (!this.done) this.Done();
   // }
 
-};
+}

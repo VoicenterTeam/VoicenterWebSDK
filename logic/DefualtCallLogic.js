@@ -5,4 +5,4 @@ module.exports = async function (call) {
   //call.Say(15155)
   call.Dial("0523574321");
   call.Execute();
-};
+}
