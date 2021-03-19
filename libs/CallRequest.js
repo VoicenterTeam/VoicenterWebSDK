@@ -8,128 +8,128 @@ const GoToLayer = require("../libs/ivrAction/goToLayer")
 const Dial = require("../libs/ivrAction/dial")
 
 module.exports = class CallRequest extends Request {
-    constructor(request, reply) {
-        super(request, reply);
-        if (global.config.callLogicFolder) this.modulePath = global.config.callLogicFolder;
-        this.clearActionModule();
-        this.CustomDataParmList = [];
-        // Fill fields map
-        this.requestFields = new Map([
-            ['DID', 'Did'],
-            ['CALLER_ID', 'CallerID'],
-            ['IVR_UNIQUE_ID', 'CallID'],
-            ['DTMF', 'DTMF'],
-            ['LAYER_ID', 'LayerID'],
-            ['PREVIOUS_LAYER_ID', 'PreviousLayerID'],
-        ]);
-        this.requestFields.forEach((classField, bodyField) => {
-            this[classField] = null;
-        });
-        // Load var From Request
-        this.requireActionModule();
-        this.parseRequest();
-    }
+  constructor(request, reply) {
+    super(request, reply);
+    if (global.config.callLogicFolder) this.modulePath = global.config.callLogicFolder;
+    this.clearActionModule();
+    this.CustomDataParmList = [];
+    // Fill fields map
+    this.requestFields = new Map([
+      ['DID', 'Did'],
+      ['CALLER_ID', 'CallerID'],
+      ['IVR_UNIQUE_ID', 'CallID'],
+      ['DTMF', 'DTMF'],
+      ['LAYER_ID', 'LayerID'],
+      ['PREVIOUS_LAYER_ID', 'PreviousLayerID'],
+    ]);
+    this.requestFields.forEach((classField, bodyField) => {
+      this[classField] = null;
+    });
+    // Load var From Request
+    this.requireActionModule();
+    this.parseRequest();
+  }
 
-    parseRequest() {
-        let self = this;
-        try {
-            if (this.request.body.DATA) {
-                this.parseRequestToObject(this.request.body.DATA);
+  parseRequest() {
+    let self = this;
+    try {
+      if (this.request.body.DATA) {
+        this.parseRequestToObject(this.request.body.DATA);
 
-                //Parsing CUSTOM_DATA
-                if (this.request.body.DATA.CUSTOM_DATA && this.request.body.DATA.CUSTOM_DATA.constructor.name == "Object") {
-                    Object.keys(this.request.body.DATA.CUSTOM_DATA).forEach(function (varName) {
-                        try {
-                            self.CustomDataParmList.push(new CallCustomParam(varName, self.request.body.DATA.CUSTOM_DATA[varName], false))
-                        } catch (err) {
-                            console.error("Failed adding CUSTOM_DATA parameter ", varName)
-                        }
-                    })
-                }
-            }
-        } catch (err) {
-            console.error("parseRequest failed ", err);
-        }
-    }
-
-    async execute() {
-        await this.executeModule(this);
-        if (!this.done) {
-            this.done = true
-            let responseObj = {};
-            responseObj = this.action.GetOutput();
-            responseObj.CUSTOM_DATA = this.OutputParam();
-            this.reply.send(responseObj);
-        }
-
-    }
-
-    async Do(nextLogic) {
-        if (nextLogic.constructor.name == "Function") {
-            await nextLogic(this)
-        } else if (nextLogic.constructor.name == "String") {
+        //Parsing CUSTOM_DATA
+        if (this.request.body.DATA.CUSTOM_DATA && this.request.body.DATA.CUSTOM_DATA.constructor.name == "Object") {
+          Object.keys(this.request.body.DATA.CUSTOM_DATA).forEach(function (varName) {
             try {
-                let nextLogicFuncaion = require(this.modulePath + '/' + nextLogic);
-                nextLogicFuncaion(this)
+              self.CustomDataParmList.push(new CallCustomParam(varName, self.request.body.DATA.CUSTOM_DATA[varName], false))
+            } catch (err) {
+              console.error("Failed adding CUSTOM_DATA parameter ", varName)
             }
-            catch (err) {
-                console.error("Failed to Do Logic " + nextLogic, err)
-            }
+          })
         }
+      }
+    } catch (err) {
+      console.error("parseRequest failed ", err);
+    }
+  }
 
-
+  async execute() {
+    await this.executeModule(this);
+    if (!this.done) {
+      this.done = true
+      let responseObj = {};
+      responseObj = this.action.GetOutput();
+      responseObj.CUSTOM_DATA = this.OutputParam();
+      this.reply.send(responseObj);
     }
 
-    SetNextLayer(layerId) {
-        this.ResponseData.NEXT_LAYER = layerId
+  }
+
+  async Do(nextLogic) {
+    if (nextLogic.constructor.name == "Function") {
+      await nextLogic(this)
+    } else if (nextLogic.constructor.name == "String") {
+      try {
+        let nextLogicFuncaion = require(this.modulePath + '/' + nextLogic);
+        nextLogicFuncaion(this)
+      }
+      catch (err) {
+        console.error("Failed to Do Logic " + nextLogic, err)
+      }
     }
 
-    // Load Action Into the class Start
-    Say(sayData, nextLayer, language) {
-        this.action = new Say(sayData, nextLayer, language)
 
+  }
+
+  SetNextLayer(layerId) {
+    this.ResponseData.NEXT_LAYER = layerId
+  }
+
+  // Load Action Into the class Start
+  Say(sayData, nextLayer, language) {
+    this.action = new Say(sayData, nextLayer, language)
+
+  }
+
+  GoToLayer(goToLayerData, callerName) {
+    this.action = new GoToLayer(goToLayerData, callerName)
+  }
+
+  Dial(target, dialOpt, call) {
+    this.action = new Dial(target, dialOpt, call)
+  }
+  // Load Action Into the class End
+
+  // Call Custom Param Functions  Start
+  SetParam(parmName, paramValue) {
+    let params = this.CustomDataParmList.filter(function (p) { return p.Name == parmName });
+    if (params.length > 0) {
+      params.forEach(function (param) {
+        param.Update(paramValue)
+      })
+    } else {
+      this.CustomDataParmList.push(new CallCustomParam(parmName, paramValue, true))
     }
+  }
 
-    GoToLayer(goToLayerData, callerName) {
-        this.action = new GoToLayer(goToLayerData, callerName)
+  GetParam(parmName) {
+    let parmVal = ""
+    try {
+      let params = this.CustomDataParmList.filter(function (p) { return p.Name == parmName });
+      parmVal = params[0].Value
+    } catch (err) {
+      console.error("Failed to get parameter value for :" + parmName, err)
     }
+    return parmVal;
+  }
 
-    Dial(target, dialOpt, call) {
-        this.action = new Dial(target, dialOpt, call)
-    }
-    // Load Action Into the class End
+  OutputParam() {
+    let parmsOutput = {}
+    let params = this.CustomDataParmList.filter(function (p) { return p.IsUpdated });
+    params.forEach(function (param) {
+      parmsOutput[param.Name] = param.Value
+    })
 
-    // Call Custom Param Functions  Start
-    SetParam(parmName, paramValue) {
-        let params = this.CustomDataParmList.filter(function (p) { return p.Name == parmName });
-        if (params.length > 0) {
-            params.forEach(function (param) {
-                param.Update(paramValue)
-            })
-        } else {
-            this.CustomDataParmList.push(new CallCustomParam(parmName, paramValue, true))
-        }
-    }
-
-    GetParam(parmName) {
-        let parmVal = ""
-        try {
-            let params = this.CustomDataParmList.filter(function (p) { return p.Name == parmName });
-            parmVal = params[0].Value
-        } catch (err) {
-            console.error("Failed to get parameter value for :" + parmName, err)
-        }
-        return parmVal;
-    }
-
-    OutputParam() {
-        let parmsOutput = {}
-        let params = this.CustomDataParmList.filter(function (p) { return p.IsUpdated });
-        params.forEach(function (param) {
-            parmsOutput[param.Name] = param.Value
-        })
-
-        return parmsOutput
-    }
-    // Call Custom Param Functions  End
+    return parmsOutput
+  }
+  // Call Custom Param Functions  End
 }

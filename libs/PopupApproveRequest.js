@@ -8,36 +8,36 @@ const jwt = require("jsonwebtoken");
 
 let keyConfig = {};
 try {
-    keyConfig = require(global.config.modulePath + '/' + 'keyConfig');
+  keyConfig = require(global.config.modulePath + '/' + 'keyConfig');
 } catch (err) {
-    console.log(err);
+  console.log(err);
 }
 
 const jwtKey = keyConfig.jwtKey;
 
 module.exports = class PopupApproveRequest extends Request {
-    constructor(request, reply) {
-        super(request, reply);
-        this.popupURL = null;
-        this.Result = '';
-        this.clearActionModule();
-        this.clearActionModule();
-        this.requireActionModule();
-    }
+  constructor(request, reply) {
+    super(request, reply);
+    this.popupURL = null;
+    this.Result = '';
+    this.clearActionModule();
+    this.clearActionModule();
+    this.requireActionModule();
+  }
 
-    async parseJWTData() {
-        let jwtData = jwt.verify(this.request.query.data, jwtKey);
-        Object.assign(this, jwtData);
-    }
+  async parseJWTData() {
+    let jwtData = jwt.verify(this.request.query.data, jwtKey);
+    Object.assign(this, jwtData);
+  }
 
-    Done() {
-        this.done = true;
-        this.reply.type('text/html');
-        this.reply.send(this.Result);
-    }
+  Done() {
+    this.done = true;
+    this.reply.type('text/html');
+    this.reply.send(this.Result);
+  }
 
-    async execute() {
-        await this.executeModule(this);
-        if (!this.done) this.Done();
-    }
+  async execute() {
+    await this.executeModule(this);
+    if (!this.done) this.Done();
+  }
 }
