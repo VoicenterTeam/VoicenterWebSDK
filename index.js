@@ -15,6 +15,7 @@ module.exports = class VoicenterWebSDK {
     global.config = this.config
 
   }
+
   async start() {
     try {
       this.fastify.register(require('./routes/Ivr'), { prefix: '/Ivr' });
@@ -28,8 +29,5 @@ module.exports = class VoicenterWebSDK {
       this.fastify.log.error(err);
       process.exit(1)
     }
-  }
-  stop() {
-    // access this.options
   }
 };
