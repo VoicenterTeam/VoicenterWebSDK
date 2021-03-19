@@ -19,6 +19,7 @@ module.exports = class PopupApproveRequest extends Request {
     
     this.popupURL = null;
     this.Result = '';
+    this.responseContentType = 'text/html';
     this.clearActionModule();
     this.requireActionModule();
   }
@@ -26,16 +27,5 @@ module.exports = class PopupApproveRequest extends Request {
   async parseJWTData() {
     let jwtData = jwt.verify(this.request.query.data, jwtKey);
     Object.assign(this, jwtData);
-  }
-
-  Done() {
-    this.done = true;
-    this.reply.type('text/html');
-    this.reply.send(this.Result);
-  }
-
-  async execute() {
-    await this.executeModule(this);
-    if (!this.done) this.Done();
   }
 }

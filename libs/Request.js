@@ -11,6 +11,7 @@ module.exports = class Request {
     this.requestFields = new Map();
     this.Result = null;
     this.CustomDataParmList = [];
+    this.responseContentType = 'application/json';
   }
 
   clearActionModule() {
@@ -59,6 +60,7 @@ module.exports = class Request {
 
   Done() {
     this.done = true;
+    this.reply.type(this.responseContentType);
     this.reply.send(this.Result);
   }
 
