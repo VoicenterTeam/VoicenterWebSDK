@@ -4,7 +4,6 @@ const path = require('path');
 module.exports = class VoicenterWebSDK {
   constructor(options = {}) {
     this.options = options;
-    let keyConfig = {};
 
     this.config = {
       port: 3000,
