@@ -35,7 +35,7 @@ module.exports = class CdrRequest extends Request {
       ['caller_country', 'caller_country'],
     ]);
 
-    this.requestFields.forEach((classField, bodyField) => {
+    this.requestFields.forEach((classField) => {
       this[classField] = null;
     });
 

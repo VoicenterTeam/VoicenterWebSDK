@@ -21,7 +21,8 @@ module.exports = class CallRequest extends Request {
       ['LAYER_ID', 'LayerID'],
       ['PREVIOUS_LAYER_ID', 'PreviousLayerID'],
     ]);
-    this.requestFields.forEach((classField, bodyField) => {
+
+    this.requestFields.forEach((classField) => {
       this[classField] = null;
     });
 

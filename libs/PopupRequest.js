@@ -30,7 +30,7 @@ module.exports = class PopupRequest extends Request {
       ['approved', 'approved'],
     ]);
 
-    this.requestFields.forEach((classField, bodyField) => {
+    this.requestFields.forEach((classField) => {
       this[classField] = null;
     });
 
