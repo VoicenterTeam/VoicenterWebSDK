@@ -83,17 +83,9 @@ module.exports = class CdrRequest {
                if(this.request.body.callerextension_name)this.callerextension_name = this.request.body.callerextension_name;
                if(this.request.body.target_country)this.target_country = this.request.body.target_country;
                if(this.request.body.caller_country)this.caller_country = this.request.body.caller_country;
-               
-               if (this.request.body.IVR && Array.isArray(this.request.body.IVR)) {
-                 this.IVR = this.request.body.IVR;
-               } else if(this.request.body.IVR && typeof(this.request.body.IVR) === 'string'){
-                   try{
-                       let ivrArray = JSON.parse(this.request.body.IVR);
-                       if(ivrArray.constructor.name==="Array")this.IVR = ivrArray;
-                   }catch (e) {
-                       console.error("Failed parse IVR list of cdr ",e);
-                       console.error("IVR list",this.request.body.IVR);
-                   }
+
+               if (this.request.body.IVR) {
+                 this.IVR = typeof(this.request.body.IVR) === 'string' ? JSON.parse(this.request.body.IVR) : this.request.body.IVR;
                }
 
                //Parsing CUSTOM_DATA
