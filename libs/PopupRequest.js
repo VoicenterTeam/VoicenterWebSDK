@@ -60,8 +60,8 @@ module.exports = class PopupRequest extends Request {
     const popupPath = this.request.raw.originalUrl.split('?')[0];
     const query = { ...this, request: undefined, reply: undefined, Result: undefined, popupURL: protocol + host + popupPath };
 
-    if (jwtKey) {
-      this.Result["URL"] = protocol + host + '/PopupApprove/' + approveUrlPath + '?&data=' + jwt.sign(query, jwtKey);
+    if (this.config.jwtKey) {
+      this.Result["URL"] = protocol + host + '/PopupApprove/' + approveUrlPath + '?&data=' + jwt.sign(query, this.config.jwtKey);
     }
 
     this.reply.send(this.Result);
