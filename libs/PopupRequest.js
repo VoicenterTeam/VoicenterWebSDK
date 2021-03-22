@@ -10,7 +10,7 @@ module.exports = class PopupRequest extends Request {
     if (config.popupLogicFolder) this.modulePath = config.popupLogicFolder;
 
     this.done = false;
-    // Main Request Popup  Vars
+    // Main Request Popup Vars
     this.queueid = null;
     this.requestFields = new Map([
       ['phone', 'phone'],
@@ -25,7 +25,6 @@ module.exports = class PopupRequest extends Request {
       this[classField] = null;
     });
 
-    // Set up Response Data
     this.Result = {
       STATUS: "OK",
       URL: "",
@@ -54,11 +53,17 @@ module.exports = class PopupRequest extends Request {
 
   ApprovePopup(approveUrlPath) {
     this.done = true;
-    
+
     const protocol = this.request.protocol || 'http://';
     const host = this.request.hostname;
     const popupPath = this.request.raw.originalUrl.split('?')[0];
-    const query = { ...this, request: undefined, reply: undefined, Result: undefined, popupURL: protocol + host + popupPath };
+    const query = {
+      ...this,
+      request: undefined,
+      reply: undefined,
+      Result: undefined,
+      popupURL: protocol + host + popupPath
+    };
 
     if (this.config.jwtKey) {
       this.Result["URL"] = protocol + host + '/PopupApprove/' + approveUrlPath + '?&data=' + jwt.sign(query, this.config.jwtKey);
@@ -68,7 +73,9 @@ module.exports = class PopupRequest extends Request {
   }
   // Call Custom Param Functions  Start
   SetParam(parmName, paramValue) {
-    let params = this.CustomDataParmList.filter(function (p) { return p.Name === parmName });
+    let params = this.CustomDataParmList.filter(function (p) {
+      return p.Name === parmName
+    });
     if (params.length > 0) {
       params.forEach(function (param) {
         param.Update(paramValue);

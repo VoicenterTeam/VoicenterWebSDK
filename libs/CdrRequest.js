@@ -10,7 +10,10 @@ module.exports = class CdrRequest extends Request {
 
     this.done = false;
     this.IVR = [];
-    this.Result = { "err": 0, "errdesc": "OK" };
+    this.Result = {
+      "err": 0,
+      "errdesc": "OK"
+    };
     this.requestFields = new Map([
       ['caller', 'caller'],
       ['target', 'target'],
@@ -51,6 +54,7 @@ module.exports = class CdrRequest extends Request {
         if (this.request.body.IVR) {
           try {
             let ivrArray = JSON.parse(this.request.body.IVR);
+
             if (ivrArray.constructor.name === "Array") this.IVR = ivrArray;
           } catch (e) {
             console.error("Failed parse IVR list of cdr ", e);

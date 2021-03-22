@@ -93,7 +93,9 @@ module.exports = class CallRequest extends Request {
 
   // Call Custom Param Functions  Start
   SetParam(parmName, paramValue) {
-    let params = this.CustomDataParmList.filter(function (p) { return p.Name == parmName });
+    let params = this.CustomDataParmList.filter(function (p) {
+      return p.Name == parmName
+    });
 
     if (params.length > 0) {
       params.forEach(function (param) {
