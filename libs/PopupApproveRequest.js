@@ -1,4 +1,3 @@
-const CallCustomParam = require("../libs/ivrAction/callParam");
 const Request = require("./Request");
 const jwt = require("jsonwebtoken");
 
@@ -17,7 +16,11 @@ module.exports = class PopupApproveRequest extends Request {
   }
 
   async parseJWTData() {
-    let jwtData = jwt.verify(this.request.query.data, this.config.jwtKey);
-    Object.assign(this, jwtData);
+    try {
+      let jwtData = jwt.verify(this.request.query.data, this.config.jwtKey);
+      Object.assign(this, jwtData);
+    } catch (err) {
+      console.error("Failed to parse request data ", err);
+    }
   }
 }

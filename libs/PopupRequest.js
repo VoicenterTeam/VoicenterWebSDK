@@ -65,8 +65,10 @@ module.exports = class PopupRequest extends Request {
       popupURL: protocol + host + popupPath
     };
 
-    if (this.config.jwtKey) {
+    try {
       this.Result["URL"] = protocol + host + '/PopupApprove/' + approveUrlPath + '?&data=' + jwt.sign(query, this.config.jwtKey);
+    } catch (err) {
+      console.error("Faled to encode data to jwt", err);
     }
 
     this.reply.send(this.Result);

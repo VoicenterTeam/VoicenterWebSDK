@@ -19,11 +19,8 @@ module.exports = class VoicenterWebSDK {
       ['./routes/Ivr', { prefix: '/Ivr', config: this.config }],
       ['./routes/Cdr', { prefix: '/Cdr', config: this.config }],
       ['./routes/Popup', { prefix: '/Popup', config: this.config }],
+      ['./routes/PopupApprove', { prefix: '/PopupApprove', config: this.config }],
     ]);
-
-    if (this.config.jwtKey) {
-      this.routeList.set('./routes/PopupApprove', { prefix: '/PopupApprove', config: this.config });
-    }
   }
 
   async start() {
