@@ -1,28 +1,37 @@
-global.config = {}; //TODO
 const fastify = require('fastify')({ logger: true });
 const path = require('path');
 
 module.exports = class VoicenterWebSDK {
   constructor(options = {}) {
     this.options = options;
+    let keyConfig = {};
 
-    this.config = {};
-    this.config.port = options.port || 3000;
-    this.config.host = options.host || '0.0.0.0';
-    this.config.callLogicFolder = options.callLogicFolder || null;
-    this.config.modulePath = options.modulePath || path.join(__dirname + "/../../");
+    this.config = {
+      port: 3000,
+      host: '0.0.0.0',
+      modulePath: path.join(__dirname + "/../../"),
+    };
+
+    this.config = { ...this.config, ...options };
 
     this.fastify = fastify;
 
-    global.config = this.config;
+    this.routeList = new Map([
+      ['./routes/Ivr', { prefix: '/Ivr', config: this.config }],
+      ['./routes/Cdr', { prefix: '/Cdr', config: this.config }],
+      ['./routes/Popup', { prefix: '/Popup', config: this.config }],
+    ]);
+
+    if (this.config.jwtKey) {
+      this.routeList.set('./routes/PopupApprove', { prefix: '/PopupApprove', config: this.config });
+    }
   }
 
   async start() {
     try {
-      this.fastify.register(require('./routes/Ivr'), { prefix: '/Ivr' });
-      this.fastify.register(require('./routes/Cdr'), { prefix: '/Cdr' });
-      this.fastify.register(require('./routes/Popup'), { prefix: '/Popup' });
-      this.fastify.register(require('./routes/PopupApprove'), { prefix: '/PopupApprove' });
+      this.routeList.forEach((route, options) => {
+        this.fastify.register(require(route), options);
+      });
 
       await this.fastify.listen({ port: this.config.port, host: this.config.host });
 

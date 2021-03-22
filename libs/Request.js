@@ -3,8 +3,9 @@ const CallCustomParam = require("../libs/ivrAction/callParam");
 const path = require('path');
 
 module.exports = class Request {
-  constructor(request, reply) {
-    this.modulePath = global.config.modulePath;
+  constructor(request, reply, config) {
+    this.config = config;
+    this.modulePath = config.modulePath;
     this.request = request;
     this.reply = reply;
     this.executeModule = null;

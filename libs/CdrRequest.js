@@ -4,9 +4,9 @@ const Request = require('./Request');
 
 module.exports = class CdrRequest extends Request {
   constructor(request, reply) {
-    super(request, reply);
+    super(request, reply, config);
 
-    if (global.config.cdrLogicFolder) this.modulePath = global.config.cdrLogicFolder;
+    if (config.cdrLogicFolder) this.modulePath = config.cdrLogicFolder;
 
     this.done = false;
     this.IVR = [];

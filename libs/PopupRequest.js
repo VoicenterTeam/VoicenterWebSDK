@@ -3,20 +3,11 @@ const jwt = require('jsonwebtoken');
 
 const Request = require('./Request');
 
-let keyConfig = {};
-try {
-  keyConfig = require(global.config.modulePath + '/' + 'keyConfig');
-} catch (err) {
-  console.log(err);
-}
-
-const jwtKey = keyConfig.jwtKey;
-
 module.exports = class PopupRequest extends Request {
   constructor(request, reply) {
-    super(request, reply);
+    super(request, reply, config);
 
-    if (global.config.popupLogicFolder) this.modulePath = global.config.popupLogicFolder;
+    if (config.popupLogicFolder) this.modulePath = config.popupLogicFolder;
 
     this.done = false;
     // Main Request Popup  Vars

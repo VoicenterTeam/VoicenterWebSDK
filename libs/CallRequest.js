@@ -7,10 +7,10 @@ const GoToLayer = require("../libs/ivrAction/goToLayer");
 const Dial = require("../libs/ivrAction/dial");
 
 module.exports = class CallRequest extends Request {
-  constructor(request, reply) {
-    super(request, reply);
+  constructor(request, reply, config) {
+    super(request, reply, config);
 
-    if (global.config.callLogicFolder) this.modulePath = global.config.callLogicFolder;
+    if (config.callLogicFolder) this.modulePath = config.callLogicFolder;
 
     this.clearActionModule();
     this.requestFields = new Map([

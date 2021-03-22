@@ -40,7 +40,7 @@ module.exports = class DialAction {
 
   GetOutput() {
     // this.output.DATA = this.SayList
-    return this.output
+    return this.output;
   }
 
   loadDialOptions(dialOptions) {
