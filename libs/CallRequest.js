@@ -79,7 +79,6 @@ module.exports = class CallRequest extends Request {
   // Load Action Into the class Start
   Say(sayData, nextLayer, language) {
     this.action = new Say(sayData, nextLayer, language)
-
   }
 
   GoToLayer(goToLayerData, callerName) {
@@ -91,15 +90,13 @@ module.exports = class CallRequest extends Request {
   }
   // Load Action Into the class End
 
-  // Call Custom Param Functions  Start
+  // Call Custom Param Functions Start
   SetParam(parmName, paramValue) {
-    let params = this.CustomDataParmList.filter(function (p) {
-      return p.Name == parmName
-    });
+    let params = this.CustomDataParmList.filter((param) => param.Name == parmName);
 
     if (params.length > 0) {
       params.forEach(function (param) {
-        param.Update(paramValue)
+        param.Update(paramValue);
       })
     } else {
       this.CustomDataParmList.push(new CallCustomParam(parmName, paramValue, true))
@@ -107,7 +104,6 @@ module.exports = class CallRequest extends Request {
   }
 
   GetParam(parmName) {
-    // let params = this.CustomDataParmList.filter((param) => param.Name == parmName);
     let param = this.CustomDataParmList.find((param) => param.Name == parmName);
 
     return param ? param.Value : '';

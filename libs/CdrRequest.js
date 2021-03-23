@@ -1,5 +1,3 @@
-const CallCustomParam = require("../libs/ivrAction/callParam");
-
 const Request = require('./Request');
 
 module.exports = class CdrRequest extends Request {
@@ -52,14 +50,7 @@ module.exports = class CdrRequest extends Request {
         this.parseRequestToObject(this.request.body);
 
         if (this.request.body.IVR) {
-          try {
-            let ivrArray = JSON.parse(this.request.body.IVR);
-
-            if (ivrArray.constructor.name === "Array") this.IVR = ivrArray;
-          } catch (e) {
-            console.error("Failed parse IVR list of cdr ", e);
-            console.error("IVR list", this.request.body.IVR);
-          }
+          this.IVR = typeof(this.request.body.IVR) === 'string' ? JSON.parse(this.request.body.IVR) : this.request.body.IVR;
         }
 
         this.parseCustomData(this.request.body.CUSTOM_DATA);
