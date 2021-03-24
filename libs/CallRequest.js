@@ -89,36 +89,4 @@ module.exports = class CallRequest extends Request {
     this.action = new Dial(target, dialOpt, call)
   }
   // Load Action Into the class End
-
-  // Call Custom Param Functions Start
-  SetParam(parmName, paramValue) {
-    let params = this.CustomDataParmList.filter((param) => param.Name == parmName);
-
-    if (params.length > 0) {
-      params.forEach(function (param) {
-        param.Update(paramValue);
-      })
-    } else {
-      this.CustomDataParmList.push(new CallCustomParam(parmName, paramValue, true))
-    }
-  }
-
-  GetParam(parmName) {
-    let param = this.CustomDataParmList.find((param) => param.Name == parmName);
-
-    return param ? param.Value : '';
-  }
-
-  OutputParam() {
-    let parmsOutput = {}
-
-    let params = this.CustomDataParmList.filter((param) => param.IsUpdated);
-
-    params.forEach(function (param) {
-      parmsOutput[param.Name] = param.Value;
-    });
-
-    return parmsOutput
-  }
-  // Call Custom Param Functions  End
 }

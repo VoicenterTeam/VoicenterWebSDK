@@ -73,19 +73,4 @@ module.exports = class PopupRequest extends Request {
 
     this.reply.send(this.Result);
   }
-  // Call Custom Param Functions  Start
-  SetParam(parmName, paramValue) {
-    let params = this.CustomDataParmList.filter(function (p) {
-      return p.Name === parmName
-    });
-    if (params.length > 0) {
-      params.forEach(function (param) {
-        param.Update(paramValue);
-      })
-    } else {
-      this.CustomDataParmList.push(new CallCustomParam(parmName, paramValue, true));
-    }
-
-  }
-  // Call Custom Param Functions  End
 }
