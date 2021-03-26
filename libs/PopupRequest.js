@@ -1,4 +1,3 @@
-const CallCustomParam = require("../libs/ivrAction/callParam");
 const jwt = require('jsonwebtoken');
 
 const Request = require('./Request');
@@ -42,7 +41,7 @@ module.exports = class PopupRequest extends Request {
       if (this.request.body) {
         this.parseRequestToObject(this.request.body);
         this.parseCustomData(this.request.body.CUSTOM_DATA);
-      } else if (this.request.query) {
+      } else {
         this.parseRequestToObject(this.request.query);
         this.parseCustomData(this.request.query.CUSTOM_DATA);
       }
@@ -52,25 +51,26 @@ module.exports = class PopupRequest extends Request {
   }
 
   ApprovePopup(approveUrlPath) {
-    this.done = true;
-
-    const protocol = this.request.protocol || 'http://';
-    const host = this.request.hostname;
-    const popupPath = this.request.raw.originalUrl.split('?')[0];
-    const query = {
-      ...this,
-      request: undefined,
-      reply: undefined,
-      Result: undefined,
-      popupURL: protocol + host + popupPath
-    };
-
     try {
+      this.done = true;
+
+      const protocol = this.request.protocol || 'http://';
+      const host = this.request.hostname;
+      const popupPath = this.request.raw.originalUrl.split('?')[0];
+
+      const query = {
+        ...this,
+        request: undefined,
+        reply: undefined,
+        Result: undefined,
+        popupURL: protocol + host + popupPath
+      };
+
       this.Result["URL"] = protocol + host + '/PopupApprove/' + approveUrlPath + '?&data=' + jwt.sign(query, this.config.jwtKey);
+
+      this.reply.send(this.Result);
     } catch (err) {
       console.error("Faled to encode data to jwt", err);
     }
-
-    this.reply.send(this.Result);
   }
 }
