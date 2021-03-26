@@ -49,7 +49,10 @@ module.exports = class CallRequest extends Request {
 
       let responseObj = {};
 
-      responseObj = this.action.GetOutput();
+      if (this.action && typeof this.action.GetOutput === "function") {
+        responseObj = this.action.GetOutput();
+      }
+
       responseObj.CUSTOM_DATA = this.OutputParam();
 
       this.reply.send(responseObj);
