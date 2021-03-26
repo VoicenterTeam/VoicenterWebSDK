@@ -49,7 +49,7 @@ module.exports = class CallRequest extends Request {
 
       let responseObj = {};
 
-      if (this.action && typeof this.action.GetOutput === "function") {
+      if (this.action) {
         responseObj = this.action.GetOutput();
       }
 
