@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const Request = require('./Request');
 
 module.exports = class PopupRequest extends Request {
-  constructor(request, reply) {
+  constructor(request, reply, config) {
     super(request, reply, config);
 
     if (config.popupLogicFolder) this.modulePath = config.popupLogicFolder;

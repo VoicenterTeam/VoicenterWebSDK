@@ -2,7 +2,7 @@ const Request = require("./Request");
 const jwt = require("jsonwebtoken");
 
 module.exports = class PopupApproveRequest extends Request {
-  constructor(request, reply) {
+  constructor(request, reply, config) {
     super(request, reply, config);
 
     if (config.popupLogicFolder) this.modulePath = config.popupLogicFolder;

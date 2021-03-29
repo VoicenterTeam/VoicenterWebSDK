@@ -1,7 +1,7 @@
 const Request = require('./Request');
 
 module.exports = class CdrRequest extends Request {
-  constructor(request, reply) {
+  constructor(request, reply, config) {
     super(request, reply, config);
 
     if (config.cdrLogicFolder) this.modulePath = config.cdrLogicFolder;
