@@ -25,7 +25,7 @@ module.exports = class VoicenterWebSDK {
 
   async start() {
     try {
-      this.routeList.forEach((route, options) => {
+      this.routeList.forEach((options, route) => {
         this.fastify.register(require(route), options);
       });
 
