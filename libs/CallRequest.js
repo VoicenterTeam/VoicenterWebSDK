@@ -1,7 +1,5 @@
 const Request = require('./Request');
 
-const CallCustomParam = require("../libs/ivrAction/callParam");
-//Load Call Action
 const Say = require("../libs/ivrAction/say");
 const GoToLayer = require("../libs/ivrAction/goToLayer");
 const Dial = require("../libs/ivrAction/dial");
@@ -13,6 +11,7 @@ module.exports = class CallRequest extends Request {
     if (config.callLogicFolder) this.modulePath = config.callLogicFolder;
 
     this.clearActionModule();
+
     this.requestFields = new Map([
       ['DID', 'Did'],
       ['CALLER_ID', 'CallerID'],
@@ -38,7 +37,7 @@ module.exports = class CallRequest extends Request {
         this.parseCustomData(this.request.body.DATA.CUSTOM_DATA);
       }
     } catch (err) {
-      console.error("parseRequest failed ", err);
+      console.error("parseRequest: ", err);
     }
   }
 
@@ -50,43 +49,43 @@ module.exports = class CallRequest extends Request {
 
       let responseObj = {};
 
-      responseObj = this.action.GetOutput();
+      if (this.action) {
+        responseObj = this.action.GetOutput();
+      }
+
       responseObj.CUSTOM_DATA = this.OutputParam();
 
       this.reply.send(responseObj);
     }
-
   }
 
   async Do(nextLogic) {
-    if (nextLogic.constructor.name == "Function") {
-      await nextLogic(this)
-    } else if (nextLogic.constructor.name == "String") {
-      try {
-        let nextLogicFuncaion = require(this.modulePath + '/' + nextLogic);
-
-        nextLogicFuncaion(this);
-      } catch (err) {
-        console.error("Failed to Do Logic " + nextLogic, err)
+    try {
+      if (nextLogic.constructor.name == "Function") {
+        return await nextLogic(this);
       }
+
+      require(this.modulePath + '/' + nextLogic)(this);
+    } catch (err) {
+      console.error("Failed to Do Logic " + nextLogic, err);
     }
   }
 
   SetNextLayer(layerId) {
-    this.ResponseData.NEXT_LAYER = layerId
+    this.ResponseData.NEXT_LAYER = layerId;
   }
 
   // Load Action Into the class Start
   Say(sayData, nextLayer, language) {
-    this.action = new Say(sayData, nextLayer, language)
+    this.action = new Say(sayData, nextLayer, language);
   }
 
   GoToLayer(goToLayerData, callerName) {
-    this.action = new GoToLayer(goToLayerData, callerName)
+    this.action = new GoToLayer(goToLayerData, callerName);
   }
 
   Dial(target, dialOpt, call) {
-    this.action = new Dial(target, dialOpt, call)
+    this.action = new Dial(target, dialOpt, call);
   }
   // Load Action Into the class End
 }

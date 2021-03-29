@@ -33,10 +33,10 @@ module.exports = class Request {
         console.error("MODULE NOT FOUND " + this.request.params.modulePath, err);
       }
 
+      this.cdrLogic = require(this.defualtModulePath);
+
       console.error("MODULE load failed  " + this.request.params.modulePath, err);
       console.error("Loading " + path.join(__dirname, "../DefualtCallLogic"));
-
-      this.cdrLogic = require(this.defualtModulePath);
     }
   }
 
@@ -48,6 +48,7 @@ module.exports = class Request {
 
   parseCustomData(customData) {
     let self = this;
+
     if (customData && customData.constructor.name == "Object") {
       Object.keys(customData).forEach(function (varName) {
         try {
@@ -55,7 +56,7 @@ module.exports = class Request {
         } catch (err) {
           console.error("Failed adding CUSTOM_DATA parameter ", varName);
         }
-      })
+      });
     }
   }
 
@@ -68,7 +69,7 @@ module.exports = class Request {
         param.Update(paramValue);
       })
     } else {
-      this.CustomDataParmList.push(new CallCustomParam(parmName, paramValue, true))
+      this.CustomDataParmList.push(new CallCustomParam(parmName, paramValue, true));
     }
   }
 
@@ -79,7 +80,7 @@ module.exports = class Request {
   }
 
   OutputParam() {
-    let parmsOutput = {}
+    let parmsOutput = {};
 
     let params = this.CustomDataParmList.filter((param) => param.IsUpdated);
 
@@ -87,7 +88,7 @@ module.exports = class Request {
       parmsOutput[param.Name] = param.Value;
     });
 
-    return parmsOutput
+    return parmsOutput;
   }
   // Call Custom Param Functions End
 
@@ -100,7 +101,7 @@ module.exports = class Request {
 
   async execute() {
     await this.executeModule(this);
+
     if (!this.done) this.Done();
   }
-
 }
