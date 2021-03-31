@@ -1,41 +1,26 @@
-let popupLogicFolder = __dirname + "/../../../";
-if (global.config.popupLogicFolder) popupLogicFolder = __dirname + "/../../../" + global.config.popupLogicFolder;
-console.log("Loading PopupRequest Class , popup Logic folder is :", popupLogicFolder);
-const clear = require("clear-module");
-const CallCustomParam = require("../libs/ivrAction/callParam");
-const PopupRequest = require("./PopupRequest");
+const Request = require("./Request");
 const jwt = require("jsonwebtoken");
 
-let keyConfig = {};
-try {
-    keyConfig = require(popupLogicFolder + '/' + 'keyConfig');
-} catch(err) {
-    console.log(err);
-}
+module.exports = class PopupApproveRequest extends Request {
+  constructor(request, reply, config) {
+    super(request, reply, config);
 
-const jwtKey = keyConfig.jwtKey;
+    if (config.popupLogicFolder) this.modulePath = config.popupLogicFolder;
 
-module.exports = class PopupApproveRequest extends PopupRequest {
-    constructor(request, reply) {
-        super(request, reply);
-        this.popupLogic = null;
-        this.popupURL = null;
-        this.Result = '';
+    this.popupURL = null;
+    this.Result = '';
+    this.responseContentType = 'text/html';
+
+    this.clearActionModule();
+    this.requireActionModule();
+  }
+
+  async parseJWTData() {
+    try {
+      let jwtData = jwt.verify(this.request.query.data, this.config.jwtKey);
+      Object.assign(this, jwtData);
+    } catch (err) {
+      console.error("Failed to parse request data ", err);
     }
-
-    async ParseJWTData() {
-        let jwtData = jwt.verify(this.request.query.data, jwtKey);
-        Object.assign(this, jwtData);
-    }
-
-    Done() {
-        this.done = true;
-        this.reply.type('text/html');
-        this.reply.send(this.Result);
-    }
-
-    async DoPopupApproveLogic() {
-        await this.popupLogic(this);
-        if (!this.done) this.Done();
-    }
+  }
 }

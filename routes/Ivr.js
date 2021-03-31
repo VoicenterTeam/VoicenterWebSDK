@@ -1,18 +1,14 @@
-const CallRequest = require("../libs/CallRequest")
-const replacer = require('../libs/callLogicParamsFormater')
-
+const CallRequest = require("../libs/CallRequest");
+const replacer = require('../libs/callLogicParamsFormater');
 
 module.exports = function (fastify, opts, done) {
-    fastify.get('/:CallLogic', ivrHandler)
-    fastify.post('/:CallLogic', ivrHandler)
-    done()
+  fastify.get('/:modulePath', (req, reply) => ivrHandler(req, reply, opts));
+  fastify.post('/:modulePath', (req, reply) => ivrHandler(req, reply, opts));
+  done()
 }
 
-async function ivrHandler  (req, reply) {
-    req.params.CallLogic = replacer(req.params.CallLogic);
-    let callRequest = new CallRequest(req, reply)
-    await callRequest.DoCallLogic();
-   // await  callRequest.Execute()
-  //  reply.send({hello:"word"})
-
+async function ivrHandler(req, reply, opts) {
+  req.params.modulePath = replacer(req.params.modulePath);
+  let callRequest = new CallRequest(req, reply, opts.config);
+  await callRequest.execute();
 }
