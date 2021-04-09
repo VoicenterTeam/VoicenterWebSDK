@@ -63,7 +63,8 @@ module.exports = class PopupRequest extends Request {
         request: undefined,
         reply: undefined,
         Result: undefined,
-        popupURL: protocol + host + popupPath
+        popupURL: protocol + host + popupPath,
+        responseContentType: undefined,
       };
 
       this.Result["URL"] = protocol + host + '/PopupApprove/' + approveUrlPath + '?&data=' + jwt.sign(query, this.config.jwtKey);
