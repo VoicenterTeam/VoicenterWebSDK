@@ -20,6 +20,7 @@ module.exports = class VoicenterWebSDK {
       ['./routes/Cdr', { prefix: '/Cdr', config: this.config }],
       ['./routes/Popup', { prefix: '/Popup', config: this.config }],
       ['./routes/PopupApprove', { prefix: '/PopupApprove', config: this.config }],
+      ['./routes/Proxy', { prefix: '/Proxy', config: this.config }],
     ]);
   }
 
