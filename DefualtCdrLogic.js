@@ -1,5 +1,5 @@
-module.exports = async function (cdr) {
-  console.debug(cdr);
+module.exports = async  function (cdr) {
+    console.debug(cdr);
+    cdr.Done();
 
-  cdr.Done();
-}
+};

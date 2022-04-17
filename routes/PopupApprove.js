@@ -2,18 +2,22 @@ const PopupApproveRequest = require("../libs/PopupApproveRequest");
 const replacer = require('../libs/callLogicParamsFormater');
 
 module.exports = function (fastify, opts, done) {
-  fastify.get('/:modulePath', (req, reply) => popupApproveHandler(req, reply, opts));
-  fastify.post('/:modulePath', (req, reply) => popupApproveHandler(req, reply, opts));
-  done()
+    fastify.get( '/:PopupLogic', popupApproveHandler);
+    fastify.post('/:PopupLogic', popupApproveHandler);
+    done()
 };
 
-async function popupApproveHandler(req, reply, opts) {
-  req.params.modulePath = replacer(req.params.modulePath);
-  let popupApproveRequest = new PopupApproveRequest(req, reply, opts.config);
-  try {
-    popupApproveRequest.parseJWTData();
-    await popupApproveRequest.execute();
-  } catch (err) {
-    console.error("popupHandler Global ERROR ", err);
-  }
+async function popupApproveHandler  (req, reply) {
+    req.params.PopupLogic = replacer(req.params.PopupLogic);
+    let popupApproveRequest = new PopupApproveRequest(req, reply);
+    try{
+        await popupApproveRequest.ParseRequest();
+        await popupApproveRequest.ParseJWTData();
+        await popupApproveRequest.DoPopupApproveLogic();
+    }catch (e) {
+        console.error("popupHandler Global ERROR ",e)
+    }
+    // await  callRequest.Execute()
+  //  reply.send({hello:"word"})
+
 }
