@@ -84,13 +84,14 @@ module.exports = class CdrRequest {
                if(this.request.body.target_country)this.target_country = this.request.body.target_country;
                if(this.request.body.caller_country)this.caller_country = this.request.body.caller_country;
                if(this.request.body.IVR){
-                   try{
-                       let ivrArray = JSON.parse(this.request.body.IVR);
-                       if(ivrArray.constructor.name==="Array")this.IVR = ivrArray;
-                   }catch (e) {
-                       console.error("Failed parse IVR list of cdr ",e);
-                       console.error("IVR list",this.request.body.IVR);
-                   }
+                    try {
+                        let ivrArray = this.request.body.IVR;
+                        if (typeof ivrArray === 'string') ivrArray = JSON.parse(ivrArray);
+                        if (ivrArray.constructor.name === "Array") this.IVR = ivrArray;
+                    } catch (e) {
+                        console.error("Failed parse IVR list of cdr ", e);
+                        console.error("IVR list", this.request.body.IVR);
+                    }
                }
 
                //Parsing CUSTOM_DATA
